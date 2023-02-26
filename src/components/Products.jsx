@@ -19,7 +19,7 @@ const Products = () => {
   }, []);
 
   const handleClick = (chosenProduct) => {
-    setSelectedProduct(chosenProduct);
+    setSelectedProduct([chosenProduct]);
   };
 
   return (

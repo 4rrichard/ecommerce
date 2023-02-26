@@ -5,14 +5,17 @@ import Products from "./components/Products";
 export const ProductContext = createContext();
 
 function App() {
-  const [selectedProduct, setSelectedProduct] = useState(() =>
-    window.localStorage.getItem("user")
+  const [selectedProduct, setSelectedProduct] = useState(
+    () => JSON.parse(localStorage.getItem("user")) ?? "[]"
   );
 
-  console.log(selectedProduct);
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    setSelectedProduct(JSON.parse(data));
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(selectedProduct));
+    localStorage.setItem("user", [JSON.stringify(selectedProduct)]);
   }, [selectedProduct]);
 
   return (
