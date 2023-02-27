@@ -22,7 +22,7 @@ function App() {
     <ProductContext.Provider value={{ selectedProduct, setSelectedProduct }}>
       <div className="App">
         <NavBar />
-        <Products selectedProduct={selectedProduct} />
+        <Products />
       </div>
     </ProductContext.Provider>
   );

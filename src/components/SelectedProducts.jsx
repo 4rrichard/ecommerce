@@ -7,7 +7,7 @@ const SelectedProducts = () => {
 
   const products = selectedProduct.selectedProduct;
 
-  console.log(typeof products);
+  console.log(products);
 
   return (
     <Box

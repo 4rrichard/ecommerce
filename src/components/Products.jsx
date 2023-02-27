@@ -4,11 +4,7 @@ import { ProductContext } from "../App";
 
 const Products = () => {
   const [product, setProduct] = useState([]);
-  // const [savedProduct, setSavedProduct] = useState({});
-  const { setSelectedProduct } = useContext(ProductContext);
-
-  // localStorage.getItem("user");
-  // savedProduct = savedProduct ? JSON.parse(savedProduct) : [];
+  const { selectedProduct, setSelectedProduct } = useContext(ProductContext);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -19,7 +15,7 @@ const Products = () => {
   }, []);
 
   const handleClick = (chosenProduct) => {
-    setSelectedProduct([chosenProduct]);
+    setSelectedProduct([...selectedProduct, chosenProduct]);
   };
 
   return (
