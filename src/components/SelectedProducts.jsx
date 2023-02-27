@@ -7,22 +7,32 @@ const SelectedProducts = () => {
 
   const products = selectedProduct.selectedProduct;
 
-  console.log(products);
-
   return (
     <Box
       sx={{
-        backgroundColor: "grey",
         position: "absolute",
         right: "15px",
+        padding: "20px",
+        backgroundColor: "grey",
       }}
     >
-      <Box>
-        <Typography>1 product in your cart</Typography>
-        <Typography>s</Typography>
-        <Button variant="contained">Check Cart</Button>
-      </Box>
-      {products !== "[]" &&
+      {products !== "[]" && (
+        <Box sx={{ paddingBottom: "10px" }}>
+          <Typography sx={{ fontSize: "20px" }}>
+            {products.length} product{products.length > 1 && "s"} in your cart
+          </Typography>
+          <Typography sx={{ fontWeight: "bold", fontSize: "25px" }}>
+            {products.reduce(
+              (total, currentValue) => (total = total + currentValue.price),
+              0
+            )}{" "}
+            $
+          </Typography>
+          <Button variant="contained">Check Cart</Button>
+        </Box>
+      )}
+
+      {products !== "[]" ? (
         products.map((product, id) => (
           <Box
             sx={{
@@ -46,7 +56,10 @@ const SelectedProducts = () => {
               >{`${product.price} $`}</Typography>
             </Box>
           </Box>
-        ))}
+        ))
+      ) : (
+        <Typography sx={{ paddingTop: "10px" }}>Your cart is empty</Typography>
+      )}
     </Box>
   );
 };

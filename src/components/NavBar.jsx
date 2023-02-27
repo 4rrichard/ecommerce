@@ -18,8 +18,9 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SelectedProducts from "./SelectedProducts";
+import { ProductContext } from "../App";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,8 +63,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavBar = () => {
+  const selectedProducts = useContext(ProductContext);
+
+  const products = selectedProducts.selectedProduct;
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -83,6 +89,10 @@ const NavBar = () => {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const visibilityHandler = () => {
+    setIsVisible((prev) => !prev);
   };
 
   const menuId = "primary-search-account-menu";
@@ -126,7 +136,7 @@ const NavBar = () => {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+          <Badge badgeContent={products.length} color="error">
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
@@ -223,8 +233,9 @@ const NavBar = () => {
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              onClick={visibilityHandler}
             >
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={products.length} color="error">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
@@ -245,7 +256,7 @@ const NavBar = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      <SelectedProducts />
+      {isVisible && <SelectedProducts />}
     </Box>
   );
 };

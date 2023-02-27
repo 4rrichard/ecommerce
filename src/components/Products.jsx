@@ -15,7 +15,11 @@ const Products = () => {
   }, []);
 
   const handleClick = (chosenProduct) => {
-    setSelectedProduct([...selectedProduct, chosenProduct]);
+    if (selectedProduct === "[]") {
+      setSelectedProduct([chosenProduct]);
+    } else {
+      setSelectedProduct([...selectedProduct, chosenProduct]);
+    }
   };
 
   return (
