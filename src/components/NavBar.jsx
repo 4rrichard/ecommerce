@@ -256,7 +256,7 @@ const NavBar = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {isVisible && <SelectedProducts />}
+      {isVisible && <SelectedProducts setIsVisible={setIsVisible} />}
     </Box>
   );
 };

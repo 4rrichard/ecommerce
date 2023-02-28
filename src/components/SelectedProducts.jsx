@@ -1,11 +1,16 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ProductContext } from "../App";
 
-const SelectedProducts = () => {
+const SelectedProducts = ({ setIsVisible }) => {
   const selectedProduct = useContext(ProductContext);
 
   const products = selectedProduct.selectedProduct;
+
+  const visibilityHandler = () => {
+    setIsVisible((prev) => !prev);
+  };
 
   return (
     <Box
@@ -28,7 +33,14 @@ const SelectedProducts = () => {
             )}{" "}
             $
           </Typography>
-          <Button variant="contained">Check Cart</Button>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/cart"
+            onClick={visibilityHandler}
+          >
+            Check Cart
+          </Button>
         </Box>
       )}
 
