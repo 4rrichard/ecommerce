@@ -8,8 +8,6 @@ const Cart = () => {
   const selectedProduct = useContext(ProductContext);
   const products = selectedProduct.selectedProduct;
 
-  console.log(products);
-
   return (
     <Box sx={{ height: "500px", margin: "30px" }}>
       <Typography sx={{ fontSize: "40px", textAlign: "center" }}>

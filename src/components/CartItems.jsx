@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
 
 const CartItems = ({ product }) => {
-  const [counter, setCounter] = useState(1);
+  const [counter, setCounter] = useState(product.quantity);
 
   const handleDelete = () => {
     const products = JSON.parse(localStorage.getItem("user"));

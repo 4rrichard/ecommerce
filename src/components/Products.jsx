@@ -19,14 +19,20 @@ const Products = () => {
       chosenProduct["quantity"] = 1;
       setSelectedProduct([chosenProduct]);
     } else if (selectedProduct.some((e) => e.id === chosenProduct.id)) {
-      console.log("item already exists");
+      const data = JSON.parse(localStorage.getItem("user"));
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        if (chosenProduct.id === data[i].id) {
+          data[i].quantity += 1;
+        }
+      }
+      console.log(data);
+      setSelectedProduct(data);
     } else {
       chosenProduct["quantity"] = 1;
       setSelectedProduct([...selectedProduct, chosenProduct]);
     }
   };
-
-  console.log(selectedProduct);
 
   return (
     <Box width={1}>

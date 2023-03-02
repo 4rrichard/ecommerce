@@ -25,11 +25,16 @@ const SelectedProducts = ({ setIsVisible }) => {
       {products !== "[]" && (
         <Box sx={{ paddingBottom: "10px" }}>
           <Typography sx={{ fontSize: "20px" }}>
-            {products.length} product{products.length > 1 && "s"} in your cart
+            {products.reduce(
+              (total, currentValue) => (total = total + currentValue.quantity),
+              0
+            )}{" "}
+            product{products.length > 1 && "s"} in your cart
           </Typography>
           <Typography sx={{ fontWeight: "bold", fontSize: "25px" }}>
             {products.reduce(
-              (total, currentValue) => (total = total + currentValue.price),
+              (total, currentValue) =>
+                (total = total + currentValue.price * currentValue.quantity),
               0
             )}{" "}
             $
@@ -65,10 +70,12 @@ const SelectedProducts = ({ setIsVisible }) => {
             />
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography>{product.title}</Typography>
-              <Typography
-                sx={{ fontWeight: "bold" }}
-              >{`${product.price} $`}</Typography>
-              <Typography sx={{ fontWeight: "light" }}>Quantity: 1</Typography>
+              <Typography sx={{ fontWeight: "bold" }}>{`${
+                product.price * product.quantity
+              } $`}</Typography>
+              <Typography sx={{ fontWeight: "light" }}>
+                Quantity: {product.quantity}
+              </Typography>
             </Box>
           </Box>
         ))}
