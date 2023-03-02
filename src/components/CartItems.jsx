@@ -3,13 +3,15 @@ import {
   Button,
   ButtonGroup,
   IconButton,
-  Input,
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
+import { ProductContext } from "../App";
 
 const CartItems = ({ product }) => {
+  const { setSelectedProduct } = useContext(ProductContext);
+
   const [counter, setCounter] = useState(product.quantity);
 
   const handleDelete = () => {
@@ -28,7 +30,28 @@ const CartItems = ({ product }) => {
     localStorage.setItem("user", JSON.stringify(products));
   };
 
-  const fullPrice = product.price * counter;
+  const quantityRaise = () => {
+    const data = JSON.parse(localStorage.getItem("user"));
+
+    for (let i = 0; i < data.length; i++) {
+      if (product.id === data[i].id) {
+        data[i].quantity += 1;
+      }
+    }
+    console.log(data);
+    setSelectedProduct(data);
+  };
+  const quantityReduce = () => {
+    const data = JSON.parse(localStorage.getItem("user"));
+
+    for (let i = 0; i < data.length; i++) {
+      if (product.id === data[i].id) {
+        data[i].quantity -= 1;
+      }
+    }
+    console.log(data);
+    setSelectedProduct(data);
+  };
 
   return (
     <Box
@@ -64,6 +87,7 @@ const CartItems = ({ product }) => {
             disabled={counter <= 0}
             onClick={() => {
               setCounter(counter - 1);
+              quantityReduce();
             }}
           >
             -
@@ -88,6 +112,7 @@ const CartItems = ({ product }) => {
           variant="contained"
           onClick={() => {
             setCounter(counter + 1);
+            quantityRaise();
           }}
         >
           +

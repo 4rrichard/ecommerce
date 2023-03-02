@@ -1,12 +1,17 @@
 import { Box, Typography } from "@mui/material";
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../App";
 import CartItems from "./CartItems";
 
 const Cart = () => {
   const selectedProduct = useContext(ProductContext);
   const products = selectedProduct.selectedProduct;
+
+  const calcQuantity = products
+    .map((prod) => prod.price * prod.quantity)
+    .reduce((total, currentValue) => total + currentValue, 0)
+    .toFixed(2);
 
   return (
     <Box sx={{ height: "500px", margin: "30px" }}>
@@ -41,8 +46,7 @@ const Cart = () => {
           color: "lightgrey",
         }}
       >
-        <Typography>Cart total</Typography>
-        <Typography></Typography>
+        <Typography>Cart total {calcQuantity}</Typography>
       </Box>
     </Box>
   );
