@@ -1,8 +1,34 @@
-import { Box, Button, ButtonGroup, Typography } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  IconButton,
+  Input,
+  Typography,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useEffect, useState } from "react";
 
 const CartItems = ({ product }) => {
   const [counter, setCounter] = useState(1);
+
+  const handleDelete = () => {
+    const products = JSON.parse(localStorage.getItem("user"));
+
+    console.log(products);
+
+    const index = products.findIndex(
+      (allProducts) => allProducts.id === product.id
+    );
+
+    if (index > -1) {
+      products.splice(index, 1);
+    }
+
+    localStorage.setItem("user", JSON.stringify(products));
+  };
+
+  const fullPrice = product.price * counter;
 
   return (
     <Box
@@ -32,15 +58,17 @@ const CartItems = ({ product }) => {
         aria-label="small outlined button group"
         sx={{ height: "30px", flex: "1", justifyContent: "center" }}
       >
-        <Button
-          variant="contained"
-          disabled={counter >= product["countInStock"]}
-          onClick={() => {
-            setCounter(counter + 1);
-          }}
-        >
-          +
-        </Button>
+        {
+          <Button
+            variant="contained"
+            disabled={counter <= 0}
+            onClick={() => {
+              setCounter(counter - 1);
+            }}
+          >
+            -
+          </Button>
+        }
 
         {
           <Button
@@ -56,23 +84,31 @@ const CartItems = ({ product }) => {
           </Button>
         }
 
-        {
-          <Button
-            variant="contained"
-            disabled={counter <= 0}
-            onClick={() => {
-              setCounter(counter - 1);
-            }}
-          >
-            -
-          </Button>
-        }
+        <Button
+          variant="contained"
+          onClick={() => {
+            setCounter(counter + 1);
+          }}
+        >
+          +
+        </Button>
       </ButtonGroup>
 
-      {/* <Typography sx={{ flex: 1, textAlign: "center" }}>1</Typography> */}
       <Typography sx={{ flex: 1, textAlign: "center" }}>
         {product.price * counter} $
       </Typography>
+      <IconButton
+        aria-label="delete"
+        sx={{
+          height: "40px",
+          padding: "0",
+          alignItems: "flex-start",
+          color: "white",
+        }}
+        onClick={handleDelete}
+      >
+        <DeleteIcon />
+      </IconButton>
     </Box>
   );
 };

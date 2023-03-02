@@ -1,12 +1,14 @@
-import { Box, Button, ButtonGroup, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { ProductContext } from "../App";
 import CartItems from "./CartItems";
 
 const Cart = () => {
   const selectedProduct = useContext(ProductContext);
   const products = selectedProduct.selectedProduct;
+
+  console.log(products);
 
   return (
     <Box sx={{ height: "500px", margin: "30px" }}>
@@ -32,6 +34,17 @@ const Cart = () => {
               <CartItems product={product} key={id} />
             ))}
         </Box>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          gap: "30px",
+          backgroundColor: "#1F2223",
+          color: "lightgrey",
+        }}
+      >
+        <Typography>Cart total</Typography>
+        <Typography></Typography>
       </Box>
     </Box>
   );

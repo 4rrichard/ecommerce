@@ -16,11 +16,17 @@ const Products = () => {
 
   const handleClick = (chosenProduct) => {
     if (selectedProduct === "[]") {
+      chosenProduct["quantity"] = 1;
       setSelectedProduct([chosenProduct]);
+    } else if (selectedProduct.some((e) => e.id === chosenProduct.id)) {
+      console.log("item already exists");
     } else {
+      chosenProduct["quantity"] = 1;
       setSelectedProduct([...selectedProduct, chosenProduct]);
     }
   };
+
+  console.log(selectedProduct);
 
   return (
     <Box width={1}>

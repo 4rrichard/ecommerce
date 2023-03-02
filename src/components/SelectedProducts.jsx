@@ -15,6 +15,7 @@ const SelectedProducts = ({ setIsVisible }) => {
   return (
     <Box
       sx={{
+        zIndex: "5",
         position: "absolute",
         right: "15px",
         padding: "20px",
@@ -41,10 +42,11 @@ const SelectedProducts = ({ setIsVisible }) => {
           >
             Check Cart
           </Button>
+          {}
         </Box>
       )}
 
-      {products !== "[]" ? (
+      {products !== "[]" &&
         products.map((product, id) => (
           <Box
             sx={{
@@ -66,12 +68,10 @@ const SelectedProducts = ({ setIsVisible }) => {
               <Typography
                 sx={{ fontWeight: "bold" }}
               >{`${product.price} $`}</Typography>
+              <Typography sx={{ fontWeight: "light" }}>Quantity: 1</Typography>
             </Box>
           </Box>
-        ))
-      ) : (
-        <Typography sx={{ paddingTop: "10px" }}>Your cart is empty</Typography>
-      )}
+        ))}
     </Box>
   );
 };
