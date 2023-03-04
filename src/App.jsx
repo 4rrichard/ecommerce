@@ -10,6 +10,7 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(
     () => JSON.parse(localStorage.getItem("user")) ?? "[]"
   );
+  const [allProducts, setAllProducts] = useState([]);
 
   useEffect(() => {
     const data = localStorage.getItem("user");
@@ -20,8 +21,18 @@ function App() {
     localStorage.setItem("user", [JSON.stringify(selectedProduct)]);
   }, [selectedProduct]);
 
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((res) => res.json())
+      .then((json) => {
+        setAllProducts(json);
+      });
+  }, []);
+
   return (
-    <ProductContext.Provider value={{ selectedProduct, setSelectedProduct }}>
+    <ProductContext.Provider
+      value={{ selectedProduct, setSelectedProduct, allProducts }}
+    >
       <div className="App">
         <NavBar />
         <Routes>

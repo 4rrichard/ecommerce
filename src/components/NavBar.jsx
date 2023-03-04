@@ -16,10 +16,11 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import SelectedProducts from "./SelectedProducts";
 import { ProductContext } from "../App";
+import SearchResults from "./SearchResults";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,13 +63,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavBar = () => {
-  const selectedProducts = useContext(ProductContext);
-
-  const products = selectedProducts.selectedProduct;
+  const { selectedProduct, allProducts } = useContext(ProductContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [searchedProducts, setSearchedProducts] = useState([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -77,6 +78,47 @@ const NavBar = () => {
   const handleMouseOut = () => {
     setIsHovering(false);
   };
+
+  const handleSearchChange = (e) => {
+    if (e.target.value) {
+      const filteredProducts = allProducts.filter((prod) =>
+        prod.title.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setSearchedProducts(filteredProducts);
+    }
+  };
+
+  const handleClickOutside = () => {
+    setShowSearchResults(false);
+  };
+
+  const useOutsideClick = (callback) => {
+    const ref = useRef();
+
+    useEffect(() => {
+      const handleClick = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+          callback();
+        }
+      };
+
+      document.addEventListener("click", handleClick, true);
+
+      return () => {
+        document.removeEventListener("click", handleClick, true);
+      };
+    }, [ref]);
+
+    return ref;
+  };
+
+  const handleHeaderClick = (event) => {
+    // do something
+
+    event.stopPropagation();
+  };
+
+  const ref = useOutsideClick(handleClickOutside);
 
   // useEffect(() => {
   //   const timer = isHovering && setTimeout(onTimeOut, 1000);
@@ -88,9 +130,9 @@ const NavBar = () => {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const quantityDisplay =
-    products === "[]"
+    selectedProduct === "[]"
       ? "0"
-      : products.reduce(
+      : selectedProduct.reduce(
           (total, currentValue) => (total = total + currentValue.quantity),
           0
         );
@@ -186,8 +228,12 @@ const NavBar = () => {
     </Menu>
   );
 
+  const handleClickOnSearch = () => {
+    setShowSearchResults(true);
+  };
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }} onClick={handleHeaderClick}>
       <AppBar
         position="static"
         sx={{
@@ -204,7 +250,11 @@ const NavBar = () => {
           >
             WEBSHOP
           </Button>
-          <Search>
+          <Search
+            onChange={handleSearchChange}
+            ref={ref}
+            onClick={handleClickOnSearch}
+          >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -267,6 +317,9 @@ const NavBar = () => {
       {renderMobileMenu}
       {renderMenu}
       {isHovering && <SelectedProducts onMouseOver={handleMouseOver} />}
+      {showSearchResults && searchedProducts.length !== 0 && (
+        <SearchResults searchedProducts={searchedProducts} />
+      )}
     </Box>
   );
 };

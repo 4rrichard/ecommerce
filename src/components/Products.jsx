@@ -3,16 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../App";
 
 const Products = () => {
-  const [product, setProduct] = useState([]);
-  const { selectedProduct, setSelectedProduct } = useContext(ProductContext);
-
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((json) => {
-        setProduct(json);
-      });
-  }, []);
+  const { selectedProduct, setSelectedProduct, allProducts } =
+    useContext(ProductContext);
 
   const handleClick = (chosenProduct) => {
     if (selectedProduct === "[]") {
@@ -41,7 +33,7 @@ const Products = () => {
         gap={2}
         sx={{ margin: "10%" }}
       >
-        {product.map((fullProduct, id) => (
+        {allProducts.map((fullProduct, id) => (
           <Box
             gridColumn="span 4"
             sx={{
