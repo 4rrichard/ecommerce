@@ -3,14 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../App";
 
-const SelectedProducts = ({ setIsVisible }) => {
+const SelectedProducts = () => {
   const selectedProduct = useContext(ProductContext);
 
   const products = selectedProduct.selectedProduct;
-
-  const visibilityHandler = () => {
-    setIsVisible((prev) => !prev);
-  };
 
   return (
     <Box
@@ -22,7 +18,7 @@ const SelectedProducts = ({ setIsVisible }) => {
         backgroundColor: "grey",
       }}
     >
-      {products !== "[]" && (
+      {products !== "[]" ? (
         <Box sx={{ paddingBottom: "10px" }}>
           <Typography sx={{ fontSize: "20px" }}>
             {products.reduce(
@@ -39,16 +35,13 @@ const SelectedProducts = ({ setIsVisible }) => {
             )}{" "}
             $
           </Typography>
-          <Button
-            variant="contained"
-            component={Link}
-            to="/cart"
-            onClick={visibilityHandler}
-          >
+          <Button variant="contained" component={Link} to="/cart">
             Check Cart
           </Button>
           {}
         </Box>
+      ) : (
+        <Typography>Your cart is empty</Typography>
       )}
 
       {products !== "[]" &&

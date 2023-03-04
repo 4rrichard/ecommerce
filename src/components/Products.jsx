@@ -26,7 +26,6 @@ const Products = () => {
           data[i].quantity += 1;
         }
       }
-      console.log(data);
       setSelectedProduct(data);
     } else {
       chosenProduct["quantity"] = 1;

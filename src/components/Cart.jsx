@@ -14,7 +14,7 @@ const Cart = () => {
     .toFixed(2);
 
   return (
-    <Box sx={{ height: "500px", margin: "30px" }}>
+    <Box sx={{ height: "500px", margin: "10% 15%" }}>
       <Typography sx={{ fontSize: "40px", textAlign: "center" }}>
         Your cart
       </Typography>
@@ -40,13 +40,22 @@ const Cart = () => {
       </Box>
       <Box
         sx={{
+          width: "70%",
+          marginLeft: "15%",
+          marginTop: "20px",
+          padding: "20px",
           display: "flex",
-          gap: "30px",
+          justifyContent: "space-between",
           backgroundColor: "#1F2223",
           color: "lightgrey",
         }}
       >
-        <Typography>Cart total {calcQuantity}</Typography>
+        <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+          Cart total:
+        </Typography>
+        <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+          {calcQuantity} $
+        </Typography>
       </Box>
     </Box>
   );

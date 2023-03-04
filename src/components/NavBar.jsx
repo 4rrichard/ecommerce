@@ -3,14 +3,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Button } from "@mui/material";
 
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
@@ -18,7 +16,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import SelectedProducts from "./SelectedProducts";
 import { ProductContext } from "../App";
 
@@ -69,10 +68,32 @@ const NavBar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
+  // useEffect(() => {
+  //   const timer = isHovering && setTimeout(onTimeOut, 1000);
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [isHovering]);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const quantityDisplay =
+    products === "[]"
+      ? "0"
+      : products.reduce(
+          (total, currentValue) => (total = total + currentValue.quantity),
+          0
+        );
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -89,10 +110,6 @@ const NavBar = () => {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const visibilityHandler = () => {
-    setIsVisible((prev) => !prev);
   };
 
   const menuId = "primary-search-account-menu";
@@ -136,7 +153,7 @@ const NavBar = () => {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={products.length} color="error">
+          <Badge badgeContent={quantityDisplay} color="error">
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
@@ -180,23 +197,13 @@ const NavBar = () => {
         }}
       >
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+          <Button
+            component={Link}
+            to="/"
+            sx={{ display: { xs: "none", sm: "block" }, color: "white" }}
           >
             WEBSHOP
-          </Typography>
+          </Button>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -233,9 +240,12 @@ const NavBar = () => {
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
-              onClick={visibilityHandler}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+              component={Link}
+              to="/cart"
             >
-              <Badge badgeContent={products.length} color="error">
+              <Badge badgeContent={quantityDisplay} color="error">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
@@ -256,7 +266,7 @@ const NavBar = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {isVisible && <SelectedProducts setIsVisible={setIsVisible} />}
+      {isHovering && <SelectedProducts onMouseOver={handleMouseOver} />}
     </Box>
   );
 };
