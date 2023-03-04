@@ -85,6 +85,8 @@ const NavBar = () => {
         prod.title.toLowerCase().includes(e.target.value.toLowerCase())
       );
       setSearchedProducts(filteredProducts);
+    } else if (e.target.value.length === 0) {
+      setSearchedProducts([]);
     }
   };
 
@@ -113,12 +115,14 @@ const NavBar = () => {
   };
 
   const handleHeaderClick = (event) => {
-    // do something
-
     event.stopPropagation();
   };
 
   const ref = useOutsideClick(handleClickOutside);
+
+  const handleClickOnSearch = () => {
+    setShowSearchResults(true);
+  };
 
   // useEffect(() => {
   //   const timer = isHovering && setTimeout(onTimeOut, 1000);
@@ -228,9 +232,10 @@ const NavBar = () => {
     </Menu>
   );
 
-  const handleClickOnSearch = () => {
-    setShowSearchResults(true);
-  };
+  // useEffect(() => {
+
+  //   setSearchedProducts()
+  // }, [searchedProducts]);
 
   return (
     <Box sx={{ flexGrow: 1 }} onClick={handleHeaderClick}>
