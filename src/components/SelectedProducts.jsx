@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import { ProductContext } from "../App";
 
 const SelectedProducts = () => {
-  const selectedProduct = useContext(ProductContext);
+  const { selectedProduct } = useContext(ProductContext);
 
-  const products = selectedProduct.selectedProduct;
+  const calcQuantity = selectedProduct
+    .map((prod) => prod.price * prod.quantity)
+    .reduce((total, currentValue) => total + currentValue, 0)
+    .toFixed(2);
 
   return (
     <Box
@@ -15,25 +18,20 @@ const SelectedProducts = () => {
         position: "absolute",
         right: "15px",
         padding: "20px",
-        backgroundColor: "grey",
+        backgroundColor: "#459C98",
       }}
     >
-      {products !== "[]" ? (
+      {selectedProduct !== "[]" ? (
         <Box sx={{ paddingBottom: "10px" }}>
           <Typography sx={{ fontSize: "20px" }}>
-            {products.reduce(
+            {selectedProduct.reduce(
               (total, currentValue) => (total = total + currentValue.quantity),
               0
             )}{" "}
-            product{products.length > 1 && "s"} in your cart
+            product{selectedProduct.length > 1 && "s"} in your cart
           </Typography>
           <Typography sx={{ fontWeight: "bold", fontSize: "25px" }}>
-            {products.reduce(
-              (total, currentValue) =>
-                (total = total + currentValue.price * currentValue.quantity),
-              0
-            )}{" "}
-            $
+            {calcQuantity}$
           </Typography>
           <Button variant="contained" component={Link} to="/cart">
             Check Cart
@@ -44,8 +42,8 @@ const SelectedProducts = () => {
         <Typography>Your cart is empty</Typography>
       )}
 
-      {products !== "[]" &&
-        products.map((product, id) => (
+      {selectedProduct !== "[]" &&
+        selectedProduct.map((product, id) => (
           <Box
             sx={{
               width: "250px",

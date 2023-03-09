@@ -5,13 +5,19 @@ import { ProductContext } from "../App";
 import CartItems from "./CartItems";
 
 const Cart = () => {
-  const selectedProduct = useContext(ProductContext);
-  const products = selectedProduct.selectedProduct;
+  const { selectedProduct, setSelectedProduct } = useContext(ProductContext);
 
-  const calcQuantity = products
+  const [checkDelete, setCheckDelete] = useState(false);
+
+  const calcQuantity = selectedProduct
     .map((prod) => prod.price * prod.quantity)
     .reduce((total, currentValue) => total + currentValue, 0)
     .toFixed(2);
+
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    setSelectedProduct(JSON.parse(data));
+  }, [checkDelete]);
 
   return (
     <Box sx={{ height: "500px", margin: "10% 15%" }}>
@@ -32,9 +38,14 @@ const Cart = () => {
           <Typography sx={{ flex: 1 }}>Price</Typography>
         </Box>
         <Box>
-          {products !== "[]" &&
-            products.map((product, id) => (
-              <CartItems product={product} key={id} />
+          {selectedProduct !== "[]" &&
+            selectedProduct.map((product, id) => (
+              <CartItems
+                product={product}
+                key={id}
+                checkDelete={checkDelete}
+                setCheckDelete={setCheckDelete}
+              />
             ))}
         </Box>
       </Box>

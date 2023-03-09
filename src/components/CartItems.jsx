@@ -6,18 +6,16 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../App";
 
-const CartItems = ({ product }) => {
+const CartItems = ({ product, checkDelete, setCheckDelete }) => {
   const { setSelectedProduct } = useContext(ProductContext);
 
   const [counter, setCounter] = useState(product.quantity);
 
   const handleDelete = () => {
     const products = JSON.parse(localStorage.getItem("user"));
-
-    console.log(products);
 
     const index = products.findIndex(
       (allProducts) => allProducts.id === product.id
@@ -28,6 +26,7 @@ const CartItems = ({ product }) => {
     }
 
     localStorage.setItem("user", JSON.stringify(products));
+    setCheckDelete(!checkDelete);
   };
 
   const quantityRaise = () => {
@@ -38,9 +37,9 @@ const CartItems = ({ product }) => {
         data[i].quantity += 1;
       }
     }
-    console.log(data);
     setSelectedProduct(data);
   };
+
   const quantityReduce = () => {
     const data = JSON.parse(localStorage.getItem("user"));
 
@@ -49,7 +48,6 @@ const CartItems = ({ product }) => {
         data[i].quantity -= 1;
       }
     }
-    console.log(data);
     setSelectedProduct(data);
   };
 
@@ -84,10 +82,17 @@ const CartItems = ({ product }) => {
         {
           <Button
             variant="contained"
-            disabled={counter <= 0}
+            disabled={counter <= 1}
             onClick={() => {
               setCounter(counter - 1);
               quantityReduce();
+            }}
+            sx={{
+              "&.Mui-disabled": {
+                background: "lightgrey",
+                color: "black",
+                opacity: "30%",
+              },
             }}
           >
             -

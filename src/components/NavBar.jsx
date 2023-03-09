@@ -197,8 +197,8 @@ const NavBar = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+      <MenuItem component={Link} to="/cart">
+        <IconButton size="large" aria-label="show products" color="inherit">
           <Badge badgeContent={quantityDisplay} color="error">
             <ShoppingCartIcon />
           </Badge>
@@ -231,11 +231,6 @@ const NavBar = () => {
       </MenuItem>
     </Menu>
   );
-
-  // useEffect(() => {
-
-  //   setSearchedProducts()
-  // }, [searchedProducts]);
 
   return (
     <Box sx={{ flexGrow: 1 }} onClick={handleHeaderClick}>
@@ -293,7 +288,7 @@ const NavBar = () => {
             </IconButton>
             <IconButton
               size="large"
-              aria-label="show 4 new mails"
+              aria-label="show products"
               color="inherit"
               onMouseOver={handleMouseOver}
               onMouseOut={handleMouseOut}
