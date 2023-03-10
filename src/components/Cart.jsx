@@ -1,6 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ProductContext } from "../App";
 import CartItems from "./CartItems";
 
@@ -15,7 +16,7 @@ const Cart = () => {
     .toFixed(2);
 
   useEffect(() => {
-    const data = localStorage.getItem("user");
+    const data = localStorage.getItem("user2");
     setSelectedProduct(JSON.parse(data));
   }, [checkDelete]);
 
@@ -67,7 +68,9 @@ const Cart = () => {
         <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
           {calcQuantity} $
         </Typography>
-        <Button variant="contained">Checkout now</Button>
+        <Button variant="contained" component={Link} to="/login">
+          Checkout now
+        </Button>
       </Box>
     </Box>
   );

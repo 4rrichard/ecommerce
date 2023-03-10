@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import SelectedProducts from "./SelectedProducts";
 import { ProductContext } from "../App";
 import SearchResults from "./SearchResults";
+import Logout from "./Logout";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -292,6 +293,7 @@ const NavBar = () => {
             >
               LOGIN
             </Button>
+            <Logout />
             <IconButton
               size="large"
               edge="end"
@@ -316,8 +318,8 @@ const NavBar = () => {
               color="inherit"
               onMouseOver={handleMouseOver}
               onMouseOut={handleMouseOut}
-              onClick={handleMouseOut}
-              component={Link}
+              onClick={selectedProduct !== "[]" && handleMouseOut}
+              component={selectedProduct !== "[]" && Link}
               to="/cart"
               sx={{
                 "&:hover": {

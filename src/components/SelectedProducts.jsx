@@ -6,10 +6,15 @@ import { ProductContext } from "../App";
 const SelectedProducts = () => {
   const { selectedProduct } = useContext(ProductContext);
 
-  const calcQuantity = selectedProduct
-    .map((prod) => prod.price * prod.quantity)
-    .reduce((total, currentValue) => total + currentValue, 0)
-    .toFixed(2);
+  console.log(selectedProduct);
+
+  const calcQuantity =
+    selectedProduct !== "[]"
+      ? selectedProduct
+          .map((prod) => prod.price * prod.quantity)
+          .reduce((total, currentValue) => total + currentValue, 0)
+          .toFixed(2)
+      : null;
 
   return (
     <Box
@@ -41,7 +46,9 @@ const SelectedProducts = () => {
           {}
         </Box>
       ) : (
-        <Typography>Your cart is empty</Typography>
+        <Box sx={{ width: "100px" }}>
+          <Typography>Your cart is empty</Typography>
+        </Box>
       )}
 
       {selectedProduct !== "[]" &&

@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "@firebase/auth";
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -42,6 +50,7 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [user] = useAuthState(auth);
 
   const [values, setValues] = useState({
     password: "",
@@ -49,6 +58,12 @@ export const Login = () => {
   });
 
   const navigate = useNavigate();
+
+  const googleSignIn = () => {
+    setLoading(true);
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
 
   const handleChange = (key) => (event) => {
     setValues({ ...values, [key]: event.target.value });
@@ -65,11 +80,11 @@ export const Login = () => {
     event.preventDefault();
   };
 
-  //   useEffect(() => {
-  //     if (user) {
-  //       navigate("/chat");
-  //     }
-  //   }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/checkout");
+  //   }
+  // }, [user]);
 
   return (
     <Box sx={style.boxContainer}>
@@ -149,7 +164,7 @@ export const Login = () => {
             </FormControl>
             <Divider sx={{ marginBottom: "20px" }}>OR</Divider>
             <GoogleButton
-              // onClick={googleSignIn}
+              onClick={googleSignIn}
               type="light"
               style={{ margin: "auto" }}
             />

@@ -15,7 +15,7 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
   const [counter, setCounter] = useState(product.quantity);
 
   const handleDelete = () => {
-    const products = JSON.parse(localStorage.getItem("user"));
+    const products = JSON.parse(localStorage.getItem("user2"));
 
     const index = products.findIndex(
       (allProducts) => allProducts.id === product.id
@@ -25,12 +25,12 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
       products.splice(index, 1);
     }
 
-    localStorage.setItem("user", JSON.stringify(products));
+    localStorage.setItem("user2", JSON.stringify(products));
     setCheckDelete(!checkDelete);
   };
 
   const quantityRaise = () => {
-    const data = JSON.parse(localStorage.getItem("user"));
+    const data = JSON.parse(localStorage.getItem("user2"));
 
     for (let i = 0; i < data.length; i++) {
       if (product.id === data[i].id) {
@@ -41,7 +41,7 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
   };
 
   const quantityReduce = () => {
-    const data = JSON.parse(localStorage.getItem("user"));
+    const data = JSON.parse(localStorage.getItem("user2"));
 
     for (let i = 0; i < data.length; i++) {
       if (product.id === data[i].id) {
