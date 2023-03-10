@@ -269,10 +269,27 @@ const NavBar = () => {
               size="large"
               aria-label="your favorites"
               color="inherit"
+              sx={{
+                "&:hover": {
+                  borderRadius: "10px ",
+                },
+              }}
             >
               <FavoriteBorderIcon />
             </IconButton>
-            <Button variant="text" sx={{ color: "white" }}>
+            <Button
+              variant="text"
+              component={Link}
+              to="/login"
+              sx={{
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "rgba(19, 106, 102, 0.14)",
+
+                  borderRadius: "10px ",
+                },
+              }}
+            >
               LOGIN
             </Button>
             <IconButton
@@ -283,21 +300,36 @@ const NavBar = () => {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
+              sx={{
+                marginRight: "1px",
+                "&:hover": {
+                  borderRadius: "10px ",
+                },
+              }}
             >
               <AccountCircle />
             </IconButton>
+
             <IconButton
               size="large"
               aria-label="show products"
               color="inherit"
               onMouseOver={handleMouseOver}
               onMouseOut={handleMouseOut}
+              onClick={handleMouseOut}
               component={Link}
               to="/cart"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#136A66",
+                  borderRadius: "10px 10px 0 0",
+                },
+              }}
             >
               <Badge badgeContent={quantityDisplay} color="error">
                 <ShoppingCartIcon />
               </Badge>
+              {isHovering && <SelectedProducts onMouseOver={handleMouseOver} />}
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -316,7 +348,7 @@ const NavBar = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {isHovering && <SelectedProducts onMouseOver={handleMouseOver} />}
+
       {showSearchResults && searchedProducts.length !== 0 && (
         <SearchResults searchedProducts={searchedProducts} />
       )}

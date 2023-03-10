@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Cart from "./components/Cart";
+import { Login } from "./components/Login";
 import NavBar from "./components/NavBar";
 import Products from "./components/Products";
 
@@ -38,6 +39,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </ProductContext.Provider>

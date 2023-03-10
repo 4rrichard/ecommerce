@@ -16,9 +16,11 @@ const SelectedProducts = () => {
       sx={{
         zIndex: "5",
         position: "absolute",
-        right: "15px",
+        top: "100%",
+        right: "0",
         padding: "20px",
-        backgroundColor: "#459C98",
+        backgroundColor: "#136A66",
+        borderRadius: "10px 0 10px 10px",
       }}
     >
       {selectedProduct !== "[]" ? (

@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 
 import React, { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../App";
@@ -67,6 +67,7 @@ const Cart = () => {
         <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
           {calcQuantity} $
         </Typography>
+        <Button variant="contained">Checkout now</Button>
       </Box>
     </Box>
   );

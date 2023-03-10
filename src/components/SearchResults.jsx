@@ -20,7 +20,12 @@ const SearchResults = ({ searchedProducts }) => {
       {searchedProducts.map((prod, id) => (
         <Typography
           key={id}
-          sx={{ padding: "10px", backgroundColor: "black", fontSize: "15px" }}
+          sx={{
+            padding: "10px",
+            backgroundColor: "#136A66",
+            fontSize: "15px",
+            borderRadius: "5px",
+          }}
         >
           {prod.title}
         </Typography>
