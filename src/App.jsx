@@ -4,6 +4,7 @@ import Cart from "./components/Cart";
 import CheckOut from "./components/CheckOut";
 import { Login } from "./components/Login";
 import NavBar from "./components/NavBar";
+import ProductPage from "./components/ProductPage";
 import Products from "./components/Products";
 import Register from "./components/Register";
 
@@ -44,6 +45,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/checkout" element={<CheckOut />} />
           <Route path="/register" element={<Register />} />
+
+          <Route path="/products/:productName" element={<ProductPage />} />
         </Routes>
       </div>
     </ProductContext.Provider>

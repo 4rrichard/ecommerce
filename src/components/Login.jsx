@@ -27,13 +27,13 @@ import LoginAsGuest from "./LoginAsGuest";
 const style = {
   boxContainer: {
     width: "100vw",
-    height: "100vh",
+    height: "90vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     gap: "20px",
     flexWrap: "wrap",
-    backgroundColor: "grey",
+    backgroundColor: "#333",
   },
   inputContainer: {
     width: "350px",
@@ -165,7 +165,7 @@ export const Login = () => {
                   marginTop: "15px",
                 }}
               >
-                <Button size="small" variant="text">
+                <Button size="small" variant="text" sx={{ color: "#459C98" }}>
                   Forgot password?
                 </Button>
                 <Button
@@ -173,6 +173,7 @@ export const Login = () => {
                   to="/register"
                   size="small"
                   variant="text"
+                  sx={{ color: "#459C98" }}
                 >
                   Register
                 </Button>

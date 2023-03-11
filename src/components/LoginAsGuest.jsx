@@ -41,7 +41,7 @@ const LoginAsGuest = () => {
             onChange={(e) => setEmail(e.target.value)}
           >
             <InputLabel htmlFor="my-input">Email</InputLabel>
-            <OutlinedInput id="component-outlined" label="Email" />
+            <OutlinedInput id="component-outlined2" label="Email" />
           </FormControl>
 
           <Button

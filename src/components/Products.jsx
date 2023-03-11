@@ -1,10 +1,12 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../App";
 
 const Products = () => {
   const { selectedProduct, setSelectedProduct, allProducts } =
     useContext(ProductContext);
+  const navigate = useNavigate();
 
   const handleClick = (chosenProduct) => {
     if (selectedProduct === "[]") {
@@ -22,6 +24,33 @@ const Products = () => {
       chosenProduct["quantity"] = 1;
       setSelectedProduct([...selectedProduct, chosenProduct]);
     }
+  };
+
+  const onProductClick = (product) => {
+    // navigate(`/products/${product.title.toLowerCase().split(" ").join("-")}`);
+    // console.log(
+    //   `/products/${product.title.toLowerCase().split(" ").join("-")}`
+    // );
+    const correction = {
+      ".": "",
+      ",": "",
+      "---": "-",
+      "--": "-",
+      "'": "",
+      "&": "",
+      "/": "",
+      "(": "",
+      ")": "",
+      "-–-": "-",
+    };
+    let productTitle = product.title.toLowerCase().split(" ").join("-");
+    if (productTitle.at(-1) === "-") {
+      productTitle = productTitle.slice(0, -1);
+    }
+    Object.keys(correction).forEach((key) => {
+      productTitle = productTitle.replaceAll(key, correction[key]);
+    });
+    navigate(`/products/${productTitle}`);
   };
 
   return (
@@ -46,6 +75,7 @@ const Products = () => {
               cursor: "pointer",
             }}
             key={id}
+            onClick={() => onProductClick(fullProduct)}
           >
             <Box
               component="img"
