@@ -13,11 +13,22 @@ const Logout = () => {
   };
 
   return (
-    <div>
-      <Button onClick={handleSignOut} variant="outlined">
+    <>
+      <Button
+        onClick={handleSignOut}
+        variant="text"
+        sx={{
+          color: "white",
+          "&:hover": {
+            backgroundColor: "rgba(19, 106, 102, 0.14)",
+
+            borderRadius: "10px ",
+          },
+        }}
+      >
         Logout
       </Button>
-    </div>
+    </>
   );
 };
 

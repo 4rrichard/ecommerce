@@ -65,6 +65,22 @@ export const Login = () => {
     signInWithPopup(auth, provider);
   };
 
+  const emailSignIn = () => {
+    setLoading(true);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        // const user = userCredential.user;
+        navigate("/");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        // const errorMessage = error.message;
+        console.log(errorCode);
+      });
+  };
+
   const handleChange = (key) => (event) => {
     setValues({ ...values, [key]: event.target.value });
   };
@@ -138,7 +154,7 @@ export const Login = () => {
                     backgroundColor: "#136A66",
                   },
                 }}
-                //   onClick={emailSignIn}
+                onClick={emailSignIn}
               >
                 Log In
               </Button>

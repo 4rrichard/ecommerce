@@ -5,6 +5,7 @@ import CheckOut from "./components/CheckOut";
 import { Login } from "./components/Login";
 import NavBar from "./components/NavBar";
 import Products from "./components/Products";
+import Register from "./components/Register";
 
 export const ProductContext = createContext();
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/checkout" element={<CheckOut />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </ProductContext.Provider>

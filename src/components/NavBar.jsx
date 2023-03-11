@@ -1,3 +1,6 @@
+import { useContext, useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -16,12 +19,14 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 
-import { useContext, useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import SelectedProducts from "./SelectedProducts";
 import { ProductContext } from "../App";
+
+import SelectedProducts from "./SelectedProducts";
 import SearchResults from "./SearchResults";
 import Logout from "./Logout";
+
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -65,6 +70,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const NavBar = () => {
   const { selectedProduct, allProducts } = useContext(ProductContext);
+  const [user] = useAuthState(auth);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -278,22 +284,26 @@ const NavBar = () => {
             >
               <FavoriteBorderIcon />
             </IconButton>
-            <Button
-              variant="text"
-              component={Link}
-              to="/login"
-              sx={{
-                color: "white",
-                "&:hover": {
-                  backgroundColor: "rgba(19, 106, 102, 0.14)",
+            {!user ? (
+              <Button
+                variant="text"
+                component={Link}
+                to="/login"
+                sx={{
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "rgba(19, 106, 102, 0.14)",
 
-                  borderRadius: "10px ",
-                },
-              }}
-            >
-              LOGIN
-            </Button>
-            <Logout />
+                    borderRadius: "10px ",
+                  },
+                }}
+              >
+                LOGIN
+              </Button>
+            ) : (
+              <Logout />
+            )}
+
             <IconButton
               size="large"
               edge="end"
@@ -312,15 +322,9 @@ const NavBar = () => {
               <AccountCircle />
             </IconButton>
 
-            <IconButton
-              size="large"
-              aria-label="show products"
-              color="inherit"
+            <Box
               onMouseOver={handleMouseOver}
               onMouseOut={handleMouseOut}
-              onClick={selectedProduct !== "[]" && handleMouseOut}
-              component={selectedProduct !== "[]" && Link}
-              to="/cart"
               sx={{
                 "&:hover": {
                   backgroundColor: "#136A66",
@@ -328,11 +332,20 @@ const NavBar = () => {
                 },
               }}
             >
-              <Badge badgeContent={quantityDisplay} color="error">
-                <ShoppingCartIcon />
-              </Badge>
-              {isHovering && <SelectedProducts onMouseOver={handleMouseOver} />}
-            </IconButton>
+              <IconButton
+                size="large"
+                aria-label="show products"
+                color="inherit"
+                onClick={handleMouseOut}
+                component={Link}
+                to="/cart"
+              >
+                <Badge badgeContent={quantityDisplay} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+              {isHovering && <SelectedProducts mouseClick={handleMouseOut} />}
+            </Box>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
