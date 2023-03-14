@@ -27,6 +27,7 @@ import Logout from "./Logout";
 
 import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import ProfileMenu from "./ProfileMenu";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -72,20 +73,26 @@ const NavBar = () => {
   const { selectedProduct, allProducts } = useContext(ProductContext);
   const [user] = useAuthState(auth);
 
-  console.log(user);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const [isHovering, setIsHovering] = useState(false);
+  const [isHoveringCart, setIsHoveringCart] = useState(false);
+  const [isHoveringProfile, setIsHoveringProfile] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
-  const handleMouseOver = () => {
-    setIsHovering(true);
+  const handleMouseOverCart = () => {
+    setIsHoveringCart(true);
   };
 
-  const handleMouseOut = () => {
-    setIsHovering(false);
+  const handleMouseOutCart = () => {
+    setIsHoveringCart(false);
+  };
+  const handleMouseOverProfile = () => {
+    setIsHoveringProfile(true);
+  };
+
+  const handleMouseOutProfile = () => {
+    setIsHoveringProfile(false);
   };
 
   const handleSearchChange = (e) => {
@@ -132,13 +139,6 @@ const NavBar = () => {
   const handleClickOnSearch = () => {
     setShowSearchResults(true);
   };
-
-  // useEffect(() => {
-  //   const timer = isHovering && setTimeout(onTimeOut, 1000);
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [isHovering]);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -286,47 +286,38 @@ const NavBar = () => {
             >
               <FavoriteBorderIcon />
             </IconButton>
-            {!user ? (
-              <Button
-                variant="text"
-                component={Link}
-                to="/login"
-                sx={{
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "rgba(19, 106, 102, 0.14)",
 
+            <Box
+              onMouseOver={handleMouseOverProfile}
+              onMouseOut={handleMouseOutProfile}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#136A66",
+                  borderRadius: "10px 10px 0 0",
+                },
+              }}
+            >
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                color="inherit"
+                sx={{
+                  marginRight: "1px",
+                  "&:hover": {
                     borderRadius: "10px ",
                   },
                 }}
               >
-                LOGIN
-              </Button>
-            ) : (
-              <Logout />
-            )}
-
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-              sx={{
-                marginRight: "1px",
-                "&:hover": {
-                  borderRadius: "10px ",
-                },
-              }}
-            >
-              <AccountCircle />
-            </IconButton>
+                <AccountCircle />
+              </IconButton>
+              {isHoveringProfile && (
+                <ProfileMenu mouseClick={handleMouseOutProfile} />
+              )}
+            </Box>
 
             <Box
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
+              onMouseOver={handleMouseOverCart}
+              onMouseOut={handleMouseOutCart}
               sx={{
                 "&:hover": {
                   backgroundColor: "#136A66",
@@ -338,7 +329,7 @@ const NavBar = () => {
                 size="large"
                 aria-label="show products"
                 color="inherit"
-                onClick={handleMouseOut}
+                onClick={handleMouseOutCart}
                 component={Link}
                 to="/cart"
               >
@@ -346,7 +337,9 @@ const NavBar = () => {
                   <ShoppingCartIcon />
                 </Badge>
               </IconButton>
-              {isHovering && <SelectedProducts mouseClick={handleMouseOut} />}
+              {isHoveringCart && (
+                <SelectedProducts mouseClick={handleMouseOutCart} />
+              )}
             </Box>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

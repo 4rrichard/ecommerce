@@ -46,8 +46,6 @@ const ProductPage = () => {
   const [prod, setProd] = useState([]);
   const [counter, setCounter] = useState(1);
 
-  const prodArr = productName.split("-");
-
   const handleClick = () => {
     if (selectedProduct === "[]") {
       prod[0]["quantity"] = counter;
@@ -67,6 +65,7 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
+    const prodArr = productName.split("-");
     setProd(
       allProducts.length !== 0 &&
         allProducts.filter((element) =>

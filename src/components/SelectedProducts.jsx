@@ -3,6 +3,29 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../App";
 
+const style = {
+  selectedProdContainer: {
+    zIndex: "5",
+    position: "absolute",
+    top: "80%",
+    right: "24px",
+    padding: "20px",
+    backgroundColor: "#136A66",
+    borderRadius: "10px 0 10px 10px",
+  },
+  checkCartBtn: {
+    color: "white",
+    backgroundColor: "#459C98",
+    boxShadow: "none",
+    border: "3px solid transparent",
+    "&:hover": {
+      backgroundColor: "rgba(69, 156, 152, 0.34)",
+      boxShadow: "none",
+      border: "3px solid #459C98",
+    },
+  },
+};
+
 const SelectedProducts = ({ mouseClick }) => {
   const { selectedProduct } = useContext(ProductContext);
 
@@ -15,17 +38,7 @@ const SelectedProducts = ({ mouseClick }) => {
       : null;
 
   return (
-    <Box
-      sx={{
-        zIndex: "5",
-        position: "absolute",
-        top: "80%",
-        right: "24px",
-        padding: "20px",
-        backgroundColor: "#136A66",
-        borderRadius: "10px 0 10px 10px",
-      }}
-    >
+    <Box sx={style.selectedProdContainer}>
       {selectedProduct.length !== 0 ? (
         <Box sx={{ paddingBottom: "10px" }}>
           <Typography sx={{ fontSize: "20px" }}>
@@ -43,6 +56,7 @@ const SelectedProducts = ({ mouseClick }) => {
             component={Link}
             to="/cart"
             onClick={mouseClick}
+            sx={style.checkCartBtn}
           >
             Check Cart
           </Button>
@@ -58,7 +72,7 @@ const SelectedProducts = ({ mouseClick }) => {
         selectedProduct.map((product, id) => (
           <Box
             sx={{
-              width: "250px",
+              width: "300px",
               height: "auto",
               padding: "10px",
               display: "flex",
@@ -72,7 +86,7 @@ const SelectedProducts = ({ mouseClick }) => {
               sx={{ width: "50px", marginRight: "10px" }}
             />
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography>{product.title}</Typography>
+              <Typography sx={{ width: "100%" }}>{product.title}</Typography>
               <Typography sx={{ fontWeight: "bold" }}>{`${
                 product.price * product.quantity
               } $`}</Typography>

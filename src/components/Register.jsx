@@ -25,7 +25,7 @@ const style = {
     justifyContent: "center",
     alignItems: "center",
     flexWrap: "wrap",
-    backgroundColor: "grey",
+    backgroundColor: "#333",
   },
   inputContainer: {
     width: "300px",
@@ -35,6 +35,13 @@ const style = {
     border: "solid 1px lightGrey",
     borderRadius: "5px",
     backgroundColor: "white",
+  },
+  regBtn: {
+    marginTop: "20px",
+    backgroundColor: "#459C98",
+    "&:hover": {
+      backgroundColor: "#136A66",
+    },
   },
 };
 
@@ -138,11 +145,7 @@ const Register = () => {
             }
             label="Password"
           />
-          <Button
-            variant="contained"
-            sx={{ marginTop: "20px" }}
-            onClick={registration}
-          >
+          <Button variant="contained" sx={style.regBtn} onClick={registration}>
             Register
           </Button>
         </FormControl>

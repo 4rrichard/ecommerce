@@ -3,6 +3,42 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../App";
 
+const style = {
+  product: {
+    maxHeight: "350px",
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-around",
+    backgroundColor: "white",
+    border: "solid 1px grey",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+  productImg: {
+    maxWidth: "100%",
+
+    height: "40%",
+    marginBottom: "20px",
+    objectFit: "contain",
+    display: "flex",
+    justifyContent: "center",
+  },
+  productTitle: { height: "20%", color: "black" },
+  productPrice: {
+    height: "10%",
+    color: "black",
+    fontWeight: "bold",
+  },
+  productBtn: {
+    backgroundColor: "#459C98",
+    "&:hover": {
+      backgroundColor: "#136A66",
+    },
+  },
+};
+
 const Products = () => {
   const {
     selectedProduct,
@@ -11,6 +47,13 @@ const Products = () => {
     setSelectedProductPage,
   } = useContext(ProductContext);
   const navigate = useNavigate();
+
+  // console.log(allProducts[13].title.substring(0, 50));
+  console.log(
+    allProducts.length !== 0 &&
+      allProducts[13].title.length >= 50 &&
+      allProducts[13].title.substring(0, 50)
+  );
 
   const handleClick = (chosenProduct) => {
     if (selectedProduct === "[]") {
@@ -29,7 +72,6 @@ const Products = () => {
       setSelectedProduct([...selectedProduct, chosenProduct]);
     }
   };
-
 
   const onProductClick = (product) => {
     const correction = {
@@ -66,16 +108,7 @@ const Products = () => {
         {allProducts.map((fullProduct, id) => (
           <Box
             gridColumn="span 4"
-            sx={{
-              maxHeight: "500px",
-              padding: "20px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              backgroundColor: "white",
-              border: "solid 1px grey",
-              cursor: "pointer",
-            }}
+            sx={style.product}
             key={id}
             onClick={() => onProductClick(fullProduct)}
           >
@@ -83,41 +116,21 @@ const Products = () => {
               component="img"
               src={fullProduct.image}
               alt=""
-              sx={{
-                maxWidth: "100%",
-
-                height: "150px",
-                marginBottom: "20px",
-                objectFit: "contain",
-                display: "flex",
-                justifyContent: "center",
-              }}
+              sx={style.productImg}
             />
-            <Typography
-              sx={{
-                color: "black",
-              }}
-            >
-              {fullProduct.title}
-            </Typography>
-            <Typography
-              sx={{
-                color: "black",
-                fontWeight: "bold",
-              }}
-            >
+            <Typography sx={style.productTitle}>{`${
+              fullProduct.title.length >= 50
+                ? fullProduct.title.substring(0, 50) + "..."
+                : fullProduct.title
+            }`}</Typography>
+            <Typography sx={style.productPrice}>
               {`${fullProduct.price} $`}
             </Typography>
             <Box sx={{ display: "flex" }}>
               <Button
                 variant="contained"
                 onClick={() => handleClick(fullProduct)}
-                sx={{
-                  backgroundColor: "#459C98",
-                  "&:hover": {
-                    backgroundColor: "#136A66",
-                  },
-                }}
+                sx={style.productBtn}
               >
                 Add to Cart
               </Button>
