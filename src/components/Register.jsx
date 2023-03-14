@@ -55,7 +55,7 @@ const Register = () => {
       .then((userCredential) => {
         const user = userCredential.user;
 
-        const docRef = doc(db, "users", user.uid);
+        const docRef = doc(db, "ecomUsers", user.uid);
         setDoc(docRef, {
           fullName: fullName,
           email: email,
@@ -63,7 +63,7 @@ const Register = () => {
         });
 
         updateProfile(auth.currentUser, {
-          fullName: fullName,
+          displayName: fullName,
         });
 
         handleOpen();

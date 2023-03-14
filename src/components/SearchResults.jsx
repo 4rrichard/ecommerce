@@ -1,34 +1,66 @@
-import { Box, Typography } from "@mui/material";
-import React from "react";
+import { Box, Button } from "@mui/material";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ProductContext } from "../App";
+
+const style = {
+  searchResContainer: {
+    zIndex: "5",
+    position: "absolute",
+    width: "300px",
+    marginLeft: "90px",
+    padding: "10px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "3px",
+    backgroundColor: "#459C98",
+    color: "white",
+  },
+  searchRes: {
+    padding: "10px",
+    backgroundColor: "#136A66",
+    color: "white",
+    fontSize: "15px",
+    borderRadius: "5px",
+  },
+};
 
 const SearchResults = ({ searchedProducts }) => {
+  const { setSelectedProductPage } = useContext(ProductContext);
+
+  const navigate = useNavigate();
+
+  const onProductClick = (title) => {
+    console.log(title);
+    const correction = {
+      ".": "",
+      ",": "",
+      "---": "-",
+      "--": "-",
+      "'": "",
+      "&": "",
+      "/": "",
+      "(": "",
+      ")": "",
+      "-–-": "-",
+    };
+    let productTitle = title.toLowerCase().split(" ").join("-");
+    if (productTitle.at(-1) === "-") {
+      productTitle = productTitle.slice(0, -1);
+    }
+    Object.keys(correction).forEach((key) => {
+      productTitle = productTitle.replaceAll(key, correction[key]);
+    });
+    setSelectedProductPage(product);
+    navigate(`/products/${productTitle}`);
+  };
+
   return (
-    <Box
-      sx={{
-        zIndex: "5",
-        position: "absolute",
-        width: "300px",
-        marginLeft: "90px",
-        padding: "10px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "3px",
-        backgroundColor: "#459C98",
-        color: "white",
-      }}
-    >
+    <Box sx={style.searchResContainer}>
       {searchedProducts.map((prod, id) => (
-        <Typography
-          key={id}
-          sx={{
-            padding: "10px",
-            backgroundColor: "#136A66",
-            fontSize: "15px",
-            borderRadius: "5px",
-          }}
-        >
+        <Button key={id} sx={style.searchRes}>
           {prod.title}
-        </Typography>
+        </Button>
       ))}
     </Box>
   );

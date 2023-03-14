@@ -15,6 +15,7 @@ function App() {
     () => JSON.parse(localStorage.getItem("user2")) ?? "[]"
   );
   const [allProducts, setAllProducts] = useState([]);
+  const [selectedProductPage, setSelectedProductPage] = useState([]);
 
   useEffect(() => {
     const data = localStorage.getItem("user2");
@@ -35,7 +36,13 @@ function App() {
 
   return (
     <ProductContext.Provider
-      value={{ selectedProduct, setSelectedProduct, allProducts }}
+      value={{
+        selectedProduct,
+        setSelectedProduct,
+        allProducts,
+        selectedProductPage,
+        setSelectedProductPage,
+      }}
     >
       <div className="App">
         <NavBar />

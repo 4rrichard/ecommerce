@@ -4,8 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../App";
 
 const Products = () => {
-  const { selectedProduct, setSelectedProduct, allProducts } =
-    useContext(ProductContext);
+  const {
+    selectedProduct,
+    setSelectedProduct,
+    allProducts,
+    setSelectedProductPage,
+  } = useContext(ProductContext);
   const navigate = useNavigate();
 
   const handleClick = (chosenProduct) => {
@@ -26,11 +30,8 @@ const Products = () => {
     }
   };
 
+
   const onProductClick = (product) => {
-    // navigate(`/products/${product.title.toLowerCase().split(" ").join("-")}`);
-    // console.log(
-    //   `/products/${product.title.toLowerCase().split(" ").join("-")}`
-    // );
     const correction = {
       ".": "",
       ",": "",
@@ -50,6 +51,7 @@ const Products = () => {
     Object.keys(correction).forEach((key) => {
       productTitle = productTitle.replaceAll(key, correction[key]);
     });
+    setSelectedProductPage(product);
     navigate(`/products/${productTitle}`);
   };
 
@@ -110,6 +112,12 @@ const Products = () => {
               <Button
                 variant="contained"
                 onClick={() => handleClick(fullProduct)}
+                sx={{
+                  backgroundColor: "#459C98",
+                  "&:hover": {
+                    backgroundColor: "#136A66",
+                  },
+                }}
               >
                 Add to Cart
               </Button>

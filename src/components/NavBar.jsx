@@ -72,6 +72,8 @@ const NavBar = () => {
   const { selectedProduct, allProducts } = useContext(ProductContext);
   const [user] = useAuthState(auth);
 
+  console.log(user);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
