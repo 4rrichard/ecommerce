@@ -91,7 +91,7 @@ const Products = () => {
   };
 
   return (
-    <Box width={1}>
+    <Box width={1} sx={{ display: "flex", justifyContent: "center" }}>
       <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"

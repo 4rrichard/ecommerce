@@ -22,6 +22,10 @@ const style = {
     color: "white",
     fontSize: "15px",
     borderRadius: "5px",
+    border: "3px solid transparent",
+    "&:hover": {
+      border: "3px solid white",
+    },
   },
 };
 
