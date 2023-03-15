@@ -23,7 +23,6 @@ import { ProductContext } from "../App";
 
 import SelectedProducts from "./SelectedProducts";
 import SearchResults from "./SearchResults";
-import Logout from "./Logout";
 
 import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";

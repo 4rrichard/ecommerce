@@ -48,13 +48,6 @@ const Products = () => {
   } = useContext(ProductContext);
   const navigate = useNavigate();
 
-  // console.log(allProducts[13].title.substring(0, 50));
-  console.log(
-    allProducts.length !== 0 &&
-      allProducts[13].title.length >= 50 &&
-      allProducts[13].title.substring(0, 50)
-  );
-
   const handleClick = (chosenProduct) => {
     if (selectedProduct === "[]") {
       chosenProduct["quantity"] = 1;

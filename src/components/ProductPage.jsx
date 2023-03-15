@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { ProductContext } from "../App";
 
 const style = {
-  productContainer: {
+  productPageContainer: {
     position: "relative",
     width: "100vw",
     height: "90vh",
@@ -12,6 +12,15 @@ const style = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  productContainer: {
+    width: "70%",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    display: "flex",
+    gap: "40px",
   },
   imgContainer: { height: "70%", padding: "5%", backgroundColor: "white" },
   img: {
@@ -22,6 +31,11 @@ const style = {
     objectFit: "contain",
     display: "flex",
     justifyContent: "center",
+  },
+  ratingContainer: {
+    display: "flex",
+    gap: "10px",
+    minInlineSize: "max-content",
   },
   detailContainer: {
     width: "100%",
@@ -46,68 +60,89 @@ const ProductPage = () => {
   const [prod, setProd] = useState([]);
   const [counter, setCounter] = useState(1);
 
+  const prodArr = productName.split("-");
+  const punctMarkArr = [".", ",", "---", "--", "'", "&", "/", "(", ")", "-–-"];
+
   const handleClick = () => {
     if (selectedProduct === "[]") {
-      prod[0]["quantity"] = counter;
+      prod["quantity"] = counter;
       setSelectedProduct([prod]);
-    } else if (selectedProduct.some((e) => e.id === prod[0].id)) {
+    } else if (selectedProduct.some((e) => e.id === prod.id)) {
       const data = JSON.parse(localStorage.getItem("user2"));
       for (let i = 0; i < data.length; i++) {
-        if (prod[0].id === data[i].id) {
+        if (prod.id === data[i].id) {
           data[i].quantity += 1;
         }
       }
       setSelectedProduct(data);
     } else {
-      prod[0]["quantity"] = counter;
-      setSelectedProduct([...selectedProduct, prod[0]]);
+      prod["quantity"] = counter;
+      setSelectedProduct([...selectedProduct, prod]);
     }
   };
 
   useEffect(() => {
-    const prodArr = productName.split("-");
-    setProd(
-      allProducts.length !== 0 &&
-        allProducts.filter((element) =>
+    if (allProducts.length !== 0) {
+      allProducts.filter((element) => {
+        if (
+          element.title.toLowerCase().split(" ").length === prodArr.length &&
           prodArr.every((item) => element.title.toLowerCase().includes(item))
-        )
-    );
+        ) {
+          setProd(element);
+        } else if (
+          prodArr.every((item) => element.title.toLowerCase().includes(item))
+        ) {
+          setProd(element);
+        } else if (
+          punctMarkArr.some((el) => element.title.toLowerCase().includes(el))
+        ) {
+          const correction = {
+            ".": "",
+            ",": "",
+            "---": "-",
+            "--": "-",
+            "'": "",
+            "&": "",
+            "/": "",
+            "(": "",
+            ")": "",
+            "-–-": "-",
+          };
+          let productTitle = element.title.toLowerCase().split(" ").join("-");
+          if (productTitle.at(-1) === "-") {
+            productTitle = productTitle.slice(0, -1);
+          }
+          Object.keys(correction).forEach((key) => {
+            productTitle = productTitle.replaceAll(key, correction[key]);
+          });
+
+          if (productTitle === productName) {
+            setProd(element);
+          }
+        }
+      });
+    }
   }, [productName, allProducts]);
 
   return (
-    <Box sx={style.productContainer}>
+    <Box sx={style.productPageContainer}>
       {prod !== undefined && prod !== false && prod.length !== 0 ? (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            display: "flex",
-            gap: "40px",
-          }}
-        >
+        <Box sx={style.productContainer}>
           <Box sx={style.imgContainer}>
-            <Box component="img" src={prod[0].image} alt="" sx={style.img} />
+            <Box component="img" src={prod.image} alt="" sx={style.img} />
           </Box>
           <Box sx={style.detailContainer}>
             <Typography sx={{ color: "white", fontSize: "30px" }}>
-              {prod[0].title}
+              {prod.title}
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "10px",
-                minInlineSize: "max-content",
-              }}
-            >
-              <Rating readOnly value={prod[0].rating.rate} />
+            <Box sx={style.ratingContainer}>
+              <Rating readOnly value={prod.rating.rate} />
               <Typography>
-                {prod[0].rating.rate} ({prod[0].rating.count} review)
+                {prod.rating.rate} ({prod.rating.count} review)
               </Typography>
             </Box>
             <Typography sx={{ fontSize: "25px", fontWeight: "bold" }}>
-              {prod[0].price} $
+              {prod.price} $
             </Typography>
 
             <Box sx={{ display: "flex", gap: "10%" }}>
@@ -177,7 +212,7 @@ const ProductPage = () => {
               Add to Favorites
             </Button>
             <Typography variant="h5">Description of product:</Typography>
-            <Typography>{prod[0].description}</Typography>
+            <Typography>{prod.description}</Typography>
           </Box>
         </Box>
       ) : null}
