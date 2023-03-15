@@ -1,18 +1,15 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
-import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Button } from "@mui/material";
 
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -27,49 +24,10 @@ import SearchResults from "./SearchResults";
 import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ProfileMenu from "./ProfileMenu";
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
+import SearchBar from "./SearchBar";
 
 const NavBar = () => {
-  const { selectedProduct, allProducts } = useContext(ProductContext);
+  const { selectedProduct } = useContext(ProductContext);
   const [user] = useAuthState(auth);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -92,17 +50,6 @@ const NavBar = () => {
 
   const handleMouseOutProfile = () => {
     setIsHoveringProfile(false);
-  };
-
-  const handleSearchChange = (e) => {
-    if (e.target.value) {
-      const filteredProducts = allProducts.filter((prod) =>
-        prod.title.toLowerCase().includes(e.target.value.toLowerCase())
-      );
-      setSearchedProducts(filteredProducts);
-    } else if (e.target.value.length === 0) {
-      setSearchedProducts([]);
-    }
   };
 
   const handleClickOutside = () => {
@@ -134,10 +81,6 @@ const NavBar = () => {
   };
 
   const ref = useOutsideClick(handleClickOutside);
-
-  const handleClickOnSearch = () => {
-    setShowSearchResults(true);
-  };
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -258,19 +201,12 @@ const NavBar = () => {
           >
             WEBSHOP
           </Button>
-          <Search
-            onChange={handleSearchChange}
-            ref={ref}
-            onClick={handleClickOnSearch}
-          >
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+
+          <SearchBar
+            reference={ref}
+            setSearchedProducts={setSearchedProducts}
+            setShowSearchResults={setShowSearchResults}
+          />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
