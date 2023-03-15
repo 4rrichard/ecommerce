@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { Button } from "@mui/material";
+import { Button, Typography, useMediaQuery } from "@mui/material";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
@@ -30,8 +30,9 @@ const NavBar = () => {
   const { selectedProduct } = useContext(ProductContext);
   const [user] = useAuthState(auth);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  // const [anchorEl, setAnchorEl] = useState(null);
+  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const matches = useMediaQuery("(min-width:900px)");
   const [isHoveringCart, setIsHoveringCart] = useState(false);
   const [isHoveringProfile, setIsHoveringProfile] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState([]);
@@ -82,8 +83,6 @@ const NavBar = () => {
 
   const ref = useOutsideClick(handleClickOutside);
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const quantityDisplay =
     selectedProduct === "[]"
       ? "0"
@@ -91,97 +90,99 @@ const NavBar = () => {
           (total, currentValue) => (total = total + currentValue.quantity),
           0
         );
+  // const isMenuOpen = Boolean(anchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleProfileMenuOpen = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+  // const handleMobileMenuClose = () => {
+  //   setMobileMoreAnchorEl(null);
+  // };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null);
+  //   handleMobileMenuClose();
+  // };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  // const handleMobileMenuOpen = (event) => {
+  //   setMobileMoreAnchorEl(event.currentTarget);
+  // };
 
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
+  // const menuId = "primary-search-account-menu";
+  // const renderMenu = (
+  //   <Menu
+  //     anchorEl={anchorEl}
+  //     anchorOrigin={{
+  //       vertical: "top",
+  //       horizontal: "right",
+  //     }}
+  //     id={menuId}
+  //     keepMounted
+  //     transformOrigin={{
+  //       vertical: "top",
+  //       horizontal: "right",
+  //     }}
+  //     open={isMenuOpen}
+  //     onClose={handleMenuClose}
+  //   >
+  //     {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+  //     <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
+  //   </Menu>
+  // );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem component={Link} to="/cart">
-        <IconButton size="large" aria-label="show products" color="inherit">
-          <Badge badgeContent={quantityDisplay} color="error">
-            <ShoppingCartIcon />
-          </Badge>
-        </IconButton>
-        <p>Your Cart</p>
-      </MenuItem>
+  // const mobileMenuId = "primary-search-account-menu-mobile";
+  // const renderMobileMenu = (
+  //   <Menu
+  //     anchorEl={mobileMoreAnchorEl}
+  //     anchorOrigin={{
+  //       vertical: "top",
+  //       horizontal: "right",
+  //     }}
+  //     id={mobileMenuId}
+  //     keepMounted
+  //     transformOrigin={{
+  //       vertical: "top",
+  //       horizontal: "right",
+  //     }}
+  //     open={isMobileMenuOpen}
+  //     onClose={handleMobileMenuClose}
+  //   >
+  //     <MenuItem component={Link} to="/cart">
+  //       <IconButton size="large" aria-label="show products" color="inherit">
+  //         <Badge badgeContent={quantityDisplay} color="error">
+  //           <ShoppingCartIcon />
+  //         </Badge>
+  //       </IconButton>
+  //       <p>Your Cart</p>
+  //     </MenuItem>
 
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="login"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <LoginIcon />
-        </IconButton>
-        <p>Login</p>
-      </MenuItem>
-    </Menu>
-  );
+  //     <MenuItem onClick={handleProfileMenuOpen}>
+  //       <IconButton
+  //         size="large"
+  //         aria-label="account of current user"
+  //         aria-controls="primary-search-account-menu"
+  //         aria-haspopup="true"
+  //         color="inherit"
+  //       >
+  //         <AccountCircle />
+  //       </IconButton>
+  //       <p>Profile</p>
+  //     </MenuItem>
+  //     <MenuItem>
+  //       <IconButton
+  //         size="large"
+  //         aria-label="login"
+  //         aria-haspopup="true"
+  //         color="inherit"
+  //       >
+  //         <LoginIcon />
+  //       </IconButton>
+  //       <p>Login</p>
+  //     </MenuItem>
+  //   </Menu>
+  // );
 
   return (
     <Box sx={{ flexGrow: 1 }} onClick={handleHeaderClick}>
@@ -220,6 +221,11 @@ const NavBar = () => {
               }}
             >
               <FavoriteBorderIcon />
+              {matches && (
+                <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>
+                  Favorites
+                </Typography>
+              )}
             </IconButton>
 
             <Box
@@ -244,6 +250,9 @@ const NavBar = () => {
                 }}
               >
                 <AccountCircle />
+                <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>
+                  Profile
+                </Typography>
               </IconButton>
               {isHoveringProfile && (
                 <ProfileMenu mouseClick={handleMouseOutProfile} />
@@ -271,13 +280,16 @@ const NavBar = () => {
                 <Badge badgeContent={quantityDisplay} color="error">
                   <ShoppingCartIcon />
                 </Badge>
+                <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>
+                  Cart
+                </Typography>
               </IconButton>
               {isHoveringCart && (
                 <SelectedProducts mouseClick={handleMouseOutCart} />
               )}
             </Box>
           </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="show more"
@@ -288,11 +300,11 @@ const NavBar = () => {
             >
               <MoreIcon />
             </IconButton>
-          </Box>
+          </Box> */}
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+      {/* {renderMobileMenu} */}
+      {/* {renderMenu} */}
 
       {showSearchResults && searchedProducts.length !== 0 && (
         <SearchResults searchedProducts={searchedProducts} />
