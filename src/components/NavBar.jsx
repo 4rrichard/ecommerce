@@ -25,9 +25,10 @@ import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ProfileMenu from "./ProfileMenu";
 import SearchBar from "./SearchBar";
+import FavoritesMenu from "./FavoritesMenu";
 
 const NavBar = () => {
-  const { selectedProduct } = useContext(ProductContext);
+  const { selectedProduct, userFav } = useContext(ProductContext);
   const [user] = useAuthState(auth);
 
   // const [anchorEl, setAnchorEl] = useState(null);
@@ -35,22 +36,29 @@ const NavBar = () => {
   const matches = useMediaQuery("(min-width:900px)");
   const [isHoveringCart, setIsHoveringCart] = useState(false);
   const [isHoveringProfile, setIsHoveringProfile] = useState(false);
+  const [isHoveringFavs, setIsHoveringFavs] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
   const handleMouseOverCart = () => {
     setIsHoveringCart(true);
   };
-
   const handleMouseOutCart = () => {
     setIsHoveringCart(false);
   };
+
   const handleMouseOverProfile = () => {
     setIsHoveringProfile(true);
   };
-
   const handleMouseOutProfile = () => {
     setIsHoveringProfile(false);
+  };
+
+  const handleMouseOverFavs = () => {
+    setIsHoveringFavs(true);
+  };
+  const handleMouseOutFavs = () => {
+    setIsHoveringFavs(false);
   };
 
   const handleClickOutside = () => {
@@ -83,13 +91,16 @@ const NavBar = () => {
 
   const ref = useOutsideClick(handleClickOutside);
 
-  const quantityDisplay =
+  const quantityProdDisplay =
     selectedProduct === "[]"
       ? "0"
       : selectedProduct.reduce(
           (total, currentValue) => (total = total + currentValue.quantity),
           0
         );
+
+  const quantityFavsDisplay = userFav === "[]" ? "0" : userFav.length;
+
   // const isMenuOpen = Boolean(anchorEl);
   // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -151,7 +162,7 @@ const NavBar = () => {
   //   >
   //     <MenuItem component={Link} to="/cart">
   //       <IconButton size="large" aria-label="show products" color="inherit">
-  //         <Badge badgeContent={quantityDisplay} color="error">
+  //         <Badge badgeContent={quantityProdDisplay} color="error">
   //           <ShoppingCartIcon />
   //         </Badge>
   //       </IconButton>
@@ -210,23 +221,42 @@ const NavBar = () => {
           />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="your favorites"
-              color="inherit"
+            <Box
+              onMouseOver={handleMouseOverFavs}
+              onMouseOut={handleMouseOutFavs}
               sx={{
                 "&:hover": {
-                  borderRadius: "10px ",
+                  backgroundColor: "#136A66",
+                  borderRadius: "10px 10px 0 0",
                 },
               }}
             >
-              <FavoriteBorderIcon />
-              {matches && (
-                <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>
-                  Favorites
-                </Typography>
+              <IconButton
+                size="large"
+                aria-label="your favorites"
+                color="inherit"
+                sx={{
+                  "&:hover": {
+                    borderRadius: "10px ",
+                  },
+                }}
+                component={Link}
+                to="/favorites"
+                onClick={handleMouseOutFavs}
+              >
+                <Badge badgeContent={quantityFavsDisplay} color="error">
+                  <FavoriteBorderIcon />
+                </Badge>
+                {matches && (
+                  <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>
+                    Favorites
+                  </Typography>
+                )}
+              </IconButton>
+              {isHoveringFavs && (
+                <FavoritesMenu mouseClick={handleMouseOutFavs} />
               )}
-            </IconButton>
+            </Box>
 
             <Box
               onMouseOver={handleMouseOverProfile}
@@ -248,6 +278,9 @@ const NavBar = () => {
                     borderRadius: "10px ",
                   },
                 }}
+                component={Link}
+                to="/login"
+                onClick={handleMouseOutProfile}
               >
                 <AccountCircle />
                 <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>
@@ -277,7 +310,7 @@ const NavBar = () => {
                 component={Link}
                 to="/cart"
               >
-                <Badge badgeContent={quantityDisplay} color="error">
+                <Badge badgeContent={quantityProdDisplay} color="error">
                   <ShoppingCartIcon />
                 </Badge>
                 <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>

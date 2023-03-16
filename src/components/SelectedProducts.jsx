@@ -68,34 +68,46 @@ const SelectedProducts = ({ mouseClick }) => {
         </Box>
       )}
 
-      {selectedProduct !== 0 &&
-        selectedProduct.map((product, id) => (
-          <Box
-            sx={{
-              width: "300px",
-              height: "auto",
-              padding: "10px",
-              display: "flex",
-              backgroundColor: "black",
-            }}
-            key={id}
-          >
+      <Box
+        sx={{
+          maxHeight: "350px",
+          overflowY: "scroll",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
+        {selectedProduct !== 0 &&
+          selectedProduct.map((product, id) => (
             <Box
-              component="img"
-              src={product.image}
-              sx={{ width: "50px", marginRight: "10px" }}
-            />
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography sx={{ width: "100%" }}>{product.title}</Typography>
-              <Typography sx={{ fontWeight: "bold" }}>{`${
-                product.price * product.quantity
-              } $`}</Typography>
-              <Typography sx={{ fontWeight: "light" }}>
-                Quantity: {product.quantity}
-              </Typography>
+              sx={{
+                width: "300px",
+                height: "auto",
+                padding: "10px",
+                display: "flex",
+                backgroundColor: "black",
+              }}
+              key={id}
+            >
+              <Box
+                component="img"
+                src={product.image}
+                sx={{ width: "30%", marginRight: "10px" }}
+              />
+              <Box
+                sx={{ width: "auto", display: "flex", flexDirection: "column" }}
+              >
+                <Typography sx={{ width: "100%" }}>{product.title}</Typography>
+                <Typography sx={{ fontWeight: "bold" }}>{`${
+                  product.price * product.quantity
+                } $`}</Typography>
+                <Typography sx={{ fontWeight: "light" }}>
+                  Quantity: {product.quantity}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-        ))}
+          ))}
+      </Box>
     </Box>
   );
 };

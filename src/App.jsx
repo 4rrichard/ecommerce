@@ -15,8 +15,21 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(
     () => JSON.parse(localStorage.getItem("user2")) ?? "[]"
   );
+
+  const [userFav, setUserFav] = useState(
+    () => JSON.parse(localStorage.getItem("userFavs")) ?? "[]"
+  );
+
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProductPage, setSelectedProductPage] = useState([]);
+
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((res) => res.json())
+      .then((json) => {
+        setAllProducts(json);
+      });
+  }, []);
 
   useEffect(() => {
     const data = localStorage.getItem("user2");
@@ -28,12 +41,13 @@ function App() {
   }, [selectedProduct]);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((json) => {
-        setAllProducts(json);
-      });
+    const data = localStorage.getItem("userFavs");
+    setUserFav(JSON.parse(data));
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("userFavs", [JSON.stringify(userFav)]);
+  }, [userFav]);
 
   return (
     <ProductContext.Provider
@@ -43,6 +57,8 @@ function App() {
         allProducts,
         selectedProductPage,
         setSelectedProductPage,
+        userFav,
+        setUserFav,
       }}
     >
       <div className="App">

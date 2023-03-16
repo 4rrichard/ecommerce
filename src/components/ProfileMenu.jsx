@@ -11,7 +11,7 @@ const style = {
     zIndex: "5",
     position: "absolute",
     top: "80%",
-    right: "116px",
+    right: "117px",
     width: "200px",
     padding: "20px",
     display: "flex",
@@ -78,10 +78,6 @@ const ProfileMenu = ({ mouseClick }) => {
           <Logout />
         </>
       )}
-
-      <Button variant="text" sx={style.button} onClick={mouseClick}>
-        Favorites
-      </Button>
     </Box>
   );
 };

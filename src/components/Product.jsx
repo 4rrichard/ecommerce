@@ -1,7 +1,7 @@
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../App";
 
@@ -43,8 +43,13 @@ const style = {
 };
 
 const Product = ({ fullProduct }) => {
-  const { selectedProduct, setSelectedProduct, setSelectedProductPage } =
-    useContext(ProductContext);
+  const {
+    selectedProduct,
+    setSelectedProduct,
+    userFav,
+    setUserFav,
+    setSelectedProductPage,
+  } = useContext(ProductContext);
 
   const [isHoveringFavorite, setIsHoveringFavorite] = useState(false);
 
@@ -65,6 +70,29 @@ const Product = ({ fullProduct }) => {
     } else {
       chosenProduct["quantity"] = 1;
       setSelectedProduct([...selectedProduct, chosenProduct]);
+    }
+  };
+
+  const handleAddToFavs = (chosenFav) => {
+    if (userFav === "[]") {
+      setUserFav([chosenFav]);
+      setIsHoveringFavorite(true);
+    } else if (userFav.some((e) => e.id === fullProduct.id)) {
+      const favs = JSON.parse(localStorage.getItem("userFavs"));
+
+      const index = favs.findIndex(
+        (allProducts) => allProducts.id === fullProduct.id
+      );
+
+      if (index > -1) {
+        favs.splice(index, 1);
+      }
+
+      localStorage.setItem("userFavs", JSON.stringify(favs));
+      setIsHoveringFavorite(false);
+    } else {
+      setUserFav([...userFav, chosenFav]);
+      setIsHoveringFavorite(true);
     }
   };
 
@@ -95,10 +123,6 @@ const Product = ({ fullProduct }) => {
     }
   };
 
-  const onFavoriteIconClick = () => {
-    console.log("added to favs");
-  };
-
   const handleMouseOverFavoriteProd = () => {
     setIsHoveringFavorite(true);
   };
@@ -106,6 +130,12 @@ const Product = ({ fullProduct }) => {
   const handleMouseOutFavoriteProd = () => {
     setIsHoveringFavorite(false);
   };
+
+  useEffect(() => {
+    if (userFav.some((e) => e.id === fullProduct.id)) {
+      setIsHoveringFavorite(true);
+    }
+  }, [userFav, isHoveringFavorite]);
 
   return (
     <Box
@@ -123,7 +153,7 @@ const Product = ({ fullProduct }) => {
         <IconButton
           onMouseOver={handleMouseOverFavoriteProd}
           onMouseOut={handleMouseOutFavoriteProd}
-          onClick={onFavoriteIconClick}
+          onClick={() => handleAddToFavs(fullProduct)}
         >
           {isHoveringFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
