@@ -40,6 +40,7 @@ const style = {
       backgroundColor: "#136A66",
     },
   },
+  favBtn: { position: "absolute", top: "20px", right: "15px" },
 };
 
 const Product = ({ fullProduct }) => {
@@ -52,6 +53,7 @@ const Product = ({ fullProduct }) => {
   } = useContext(ProductContext);
 
   const [isHoveringFavorite, setIsHoveringFavorite] = useState(false);
+  const [favSaved, setFavSaved] = useState(false);
 
   const navigate = useNavigate();
 
@@ -73,7 +75,7 @@ const Product = ({ fullProduct }) => {
     }
   };
 
-  const handleAddToFavs = (chosenFav) => {
+  const handleAddToFavs = (chosenFav, e) => {
     if (userFav === "[]") {
       setUserFav([chosenFav]);
       setIsHoveringFavorite(true);
@@ -90,10 +92,12 @@ const Product = ({ fullProduct }) => {
 
       localStorage.setItem("userFavs", JSON.stringify(favs));
       setIsHoveringFavorite(false);
+      setFavSaved(!favSaved);
     } else {
       setUserFav([...userFav, chosenFav]);
       setIsHoveringFavorite(true);
     }
+    e.stopPropagation();
   };
 
   const onProductClick = (product) => {
@@ -118,9 +122,7 @@ const Product = ({ fullProduct }) => {
     });
     setSelectedProductPage(product);
 
-    if (isHoveringFavorite === false) {
-      navigate(`/products/${productTitle}`);
-    }
+    navigate(`/products/${productTitle}`);
   };
 
   const handleMouseOverFavoriteProd = () => {
@@ -132,10 +134,17 @@ const Product = ({ fullProduct }) => {
   };
 
   useEffect(() => {
-    if (userFav.some((e) => e.id === fullProduct.id)) {
-      setIsHoveringFavorite(true);
+    if (userFav !== "[]") {
+      if (userFav.some((e) => e.id === fullProduct.id)) {
+        setIsHoveringFavorite(true);
+      }
     }
   }, [userFav, isHoveringFavorite]);
+
+  useEffect(() => {
+    const favData = localStorage.getItem("userFavs");
+    setUserFav(JSON.parse(favData));
+  }, [favSaved]);
 
   return (
     <Box
@@ -149,11 +158,11 @@ const Product = ({ fullProduct }) => {
         alt=""
         sx={style.productImg}
       />
-      <Box sx={{ position: "absolute", top: "20px", right: "15px" }}>
+      <Box sx={style.favBtn}>
         <IconButton
           onMouseOver={handleMouseOverFavoriteProd}
           onMouseOut={handleMouseOutFavoriteProd}
-          onClick={() => handleAddToFavs(fullProduct)}
+          onClick={(e) => handleAddToFavs(fullProduct, e)}
         >
           {isHoveringFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
