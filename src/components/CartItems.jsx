@@ -8,14 +8,20 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../App";
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const CartItems = ({ product, checkDelete, setCheckDelete }) => {
+  const [user] = useAuthState(auth);
+
   const { setSelectedProduct } = useContext(ProductContext);
 
   const [counter, setCounter] = useState(product.quantity);
 
   const handleDelete = () => {
-    const products = JSON.parse(localStorage.getItem("user2"));
+    const products = user
+      ? JSON.parse(localStorage.getItem(user.uid))
+      : JSON.parse(localStorage.getItem("guest"));
 
     const index = products.findIndex(
       (allProducts) => allProducts.id === product.id
@@ -25,13 +31,21 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
       products.splice(index, 1);
     }
 
-    localStorage.setItem("user2", JSON.stringify(products));
+    user
+      ? localStorage.setItem(user.uid, JSON.stringify(products))
+      : localStorage.setItem("guest", JSON.stringify(products));
+
     setCheckDelete(!checkDelete);
   };
 
-  const quantityRaise = () => {
-    const data = JSON.parse(localStorage.getItem("user2"));
+  const data = user
+    ? JSON.parse(localStorage.getItem(user.uid))
+    : JSON.parse(localStorage.getItem("guest"));
 
+  const quantityRaise = () => {
+    const data = user
+      ? JSON.parse(localStorage.getItem(user.uid))
+      : JSON.parse(localStorage.getItem("guest"));
     for (let i = 0; i < data.length; i++) {
       if (product.id === data[i].id) {
         data[i].quantity += 1;
@@ -41,8 +55,9 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
   };
 
   const quantityReduce = () => {
-    const data = JSON.parse(localStorage.getItem("user2"));
-
+    const data = user
+      ? JSON.parse(localStorage.getItem(user.uid))
+      : JSON.parse(localStorage.getItem("guest"));
     for (let i = 0; i < data.length; i++) {
       if (product.id === data[i].id) {
         data[i].quantity -= 1;

@@ -8,13 +8,21 @@ import ProductPage from "./components/ProductPage";
 import Products from "./components/Products";
 import Register from "./components/Register";
 import Favorites from "./components/Favorites";
+import { auth } from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const ProductContext = createContext();
 
 function App() {
-  const [selectedProduct, setSelectedProduct] = useState(
-    () => JSON.parse(localStorage.getItem("user2")) ?? "[]"
-  );
+  const [user] = useAuthState(auth);
+
+  const [selectedProduct, setSelectedProduct] = useState(() => {
+    if (user) {
+      return JSON.parse(localStorage.getItem(user.uid)) ?? "[]";
+    } else {
+      return JSON.parse(localStorage.getItem("guest")) ?? "[]";
+    }
+  });
 
   const [userFav, setUserFav] = useState(
     () => JSON.parse(localStorage.getItem("userFavs")) ?? "[]"
@@ -32,12 +40,17 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const data = localStorage.getItem("user2");
+    const data = user
+      ? localStorage.getItem(user.uid)
+      : localStorage.getItem("guest");
+
     setSelectedProduct(JSON.parse(data));
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("user2", [JSON.stringify(selectedProduct)]);
+    user
+      ? localStorage.setItem(user.uid, [JSON.stringify(selectedProduct)])
+      : localStorage.setItem("guest", [JSON.stringify(selectedProduct)]);
   }, [selectedProduct]);
 
   useEffect(() => {

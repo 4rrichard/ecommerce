@@ -4,6 +4,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../App";
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const style = {
   product: {
@@ -44,6 +46,8 @@ const style = {
 };
 
 const Product = ({ fullProduct }) => {
+  const [user] = useAuthState(auth);
+
   const {
     selectedProduct,
     setSelectedProduct,
@@ -57,12 +61,14 @@ const Product = ({ fullProduct }) => {
 
   const navigate = useNavigate();
 
-  const handleAddToCart = (chosenProduct) => {
+  const handleAddToCart = (chosenProduct, e) => {
     if (selectedProduct === "[]") {
       chosenProduct["quantity"] = 1;
       setSelectedProduct([chosenProduct]);
     } else if (selectedProduct.some((e) => e.id === chosenProduct.id)) {
-      const data = JSON.parse(localStorage.getItem("user2"));
+      const data = user
+        ? localStorage.getItem(user.uid)
+        : localStorage.getItem("guest");
       for (let i = 0; i < data.length; i++) {
         if (chosenProduct.id === data[i].id) {
           data[i].quantity += 1;
@@ -73,6 +79,7 @@ const Product = ({ fullProduct }) => {
       chosenProduct["quantity"] = 1;
       setSelectedProduct([...selectedProduct, chosenProduct]);
     }
+    e.stopPropagation();
   };
 
   const handleAddToFavs = (chosenFav, e) => {
@@ -178,7 +185,7 @@ const Product = ({ fullProduct }) => {
       <Box sx={{ display: "flex" }}>
         <Button
           variant="contained"
-          onClick={() => handleAddToCart(fullProduct)}
+          onClick={(e) => handleAddToCart(fullProduct, e)}
           sx={style.productBtn}
         >
           Add to Cart

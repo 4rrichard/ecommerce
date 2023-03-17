@@ -1,16 +1,21 @@
 import { Box, Typography, Button } from "@mui/material";
 
 import React, { useContext, useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../App";
+import { auth } from "../firebase";
 import CartItems from "./CartItems";
 
 const Cart = () => {
+  const [user] = useAuthState(auth);
+
   const { selectedProduct, setSelectedProduct } = useContext(ProductContext);
 
   const [checkDelete, setCheckDelete] = useState(false);
 
   const calcQuantity =
+    selectedProduct !== "[]" &&
     selectedProduct.length !== 0 &&
     selectedProduct
       .map((prod) => prod.price * prod.quantity)
@@ -18,7 +23,9 @@ const Cart = () => {
       .toFixed(2);
 
   useEffect(() => {
-    const data = localStorage.getItem("user2");
+    const data = user
+      ? localStorage.getItem(user.uid)
+      : localStorage.getItem("guest");
     setSelectedProduct(JSON.parse(data));
   }, [checkDelete]);
 
@@ -27,7 +34,7 @@ const Cart = () => {
       <Typography sx={{ fontSize: "40px", textAlign: "center" }}>
         Your cart
       </Typography>
-      {selectedProduct.length !== 0 ? (
+      {selectedProduct !== "[]" && selectedProduct.length !== 0 ? (
         <>
           <Box>
             <Box
@@ -43,7 +50,8 @@ const Cart = () => {
               <Typography sx={{ flex: 1 }}>Price</Typography>
             </Box>
             <Box>
-              {selectedProduct.length !== 0 &&
+              {selectedProduct !== "[]" &&
+                selectedProduct.length !== 0 &&
                 selectedProduct.map((product, id) => (
                   <CartItems
                     product={product}

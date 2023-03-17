@@ -30,7 +30,7 @@ const SelectedProducts = ({ mouseClick }) => {
   const { selectedProduct } = useContext(ProductContext);
 
   const calcQuantity =
-    selectedProduct.length !== 0
+    selectedProduct !== "[]" && selectedProduct.length !== 0
       ? selectedProduct
           .map((prod) => prod.price * prod.quantity)
           .reduce((total, currentValue) => total + currentValue, 0)
@@ -39,7 +39,7 @@ const SelectedProducts = ({ mouseClick }) => {
 
   return (
     <Box sx={style.selectedProdContainer}>
-      {selectedProduct.length !== 0 ? (
+      {selectedProduct !== "[]" && selectedProduct.length !== 0 ? (
         <Box sx={{ paddingBottom: "10px" }}>
           <Typography sx={{ fontSize: "20px" }}>
             {selectedProduct.reduce(
@@ -77,7 +77,8 @@ const SelectedProducts = ({ mouseClick }) => {
           },
         }}
       >
-        {selectedProduct !== 0 &&
+        {selectedProduct !== "[]" &&
+          selectedProduct.length !== 0 &&
           selectedProduct.map((product, id) => (
             <Box
               sx={{

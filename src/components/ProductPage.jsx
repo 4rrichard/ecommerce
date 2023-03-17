@@ -1,7 +1,9 @@
 import { Box, Button, Rating, Typography, ButtonGroup } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useParams } from "react-router-dom";
 import { ProductContext } from "../App";
+import { auth } from "../firebase";
 
 const style = {
   productPageContainer: {
@@ -53,6 +55,8 @@ const style = {
 };
 
 const ProductPage = () => {
+  const [user] = useAuthState(auth);
+
   const { allProducts, selectedProduct, setSelectedProduct } =
     useContext(ProductContext);
   const { productName } = useParams();
@@ -68,7 +72,9 @@ const ProductPage = () => {
       prod["quantity"] = counter;
       setSelectedProduct([prod]);
     } else if (selectedProduct.some((e) => e.id === prod.id)) {
-      const data = JSON.parse(localStorage.getItem("user2"));
+      const data = user
+        ? localStorage.getItem(user.uid)
+        : localStorage.getItem("guest");
       for (let i = 0; i < data.length; i++) {
         if (prod.id === data[i].id) {
           data[i].quantity += 1;
