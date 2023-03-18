@@ -92,7 +92,7 @@ const NavBar = () => {
   const ref = useOutsideClick(handleClickOutside);
 
   const quantityProdDisplay =
-    selectedProduct === "[]"
+    selectedProduct === "[]" || selectedProduct.length === 0
       ? "0"
       : selectedProduct.reduce(
           (total, currentValue) => (total = total + currentValue.quantity),

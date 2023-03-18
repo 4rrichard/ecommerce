@@ -1,7 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../App";
+import { auth } from "../firebase";
 import FavoriteItems from "./FavoriteItems";
 
 const style = {
@@ -55,12 +57,17 @@ const style = {
 };
 
 const Favorites = () => {
+  const [user] = useAuthState(auth);
+
   const { userFav, setUserFav } = useContext(ProductContext);
 
   const [checkDelete, setCheckDelete] = useState(false);
 
   useEffect(() => {
-    const data = localStorage.getItem("userFavs");
+    const data = user
+      ? localStorage.getItem(`${user.uid}Favs`)
+      : localStorage.getItem("guestFavs");
+
     setUserFav(JSON.parse(data));
   }, [checkDelete]);
 
@@ -96,7 +103,8 @@ const Favorites = () => {
         </Typography>
 
         <Box>
-          {userFav.length !== 0 &&
+          {userFav !== "[]" &&
+            userFav.length !== 0 &&
             [...userFav]
               .reverse()
               .map((product, id) => (

@@ -87,7 +87,9 @@ const Product = ({ fullProduct }) => {
       setUserFav([chosenFav]);
       setIsHoveringFavorite(true);
     } else if (userFav.some((e) => e.id === fullProduct.id)) {
-      const favs = JSON.parse(localStorage.getItem("userFavs"));
+      const favs = user
+        ? JSON.parse(localStorage.getItem(`${user.uid}Favs`))
+        : JSON.parse(localStorage.getItem("guestFavs"));
 
       const index = favs.findIndex(
         (allProducts) => allProducts.id === fullProduct.id
@@ -97,7 +99,10 @@ const Product = ({ fullProduct }) => {
         favs.splice(index, 1);
       }
 
-      localStorage.setItem("userFavs", JSON.stringify(favs));
+      user
+        ? localStorage.setItem(`${user.uid}Favs`, JSON.stringify(favs))
+        : localStorage.setItem("guestFavs", JSON.stringify(favs));
+
       setIsHoveringFavorite(false);
       setFavSaved(!favSaved);
     } else {
@@ -149,7 +154,9 @@ const Product = ({ fullProduct }) => {
   }, [userFav, isHoveringFavorite]);
 
   useEffect(() => {
-    const favData = localStorage.getItem("userFavs");
+    const favData = user
+      ? localStorage.getItem(`${user.uid}Favs`)
+      : localStorage.getItem("guestFavs");
     setUserFav(JSON.parse(favData));
   }, [favSaved]);
 

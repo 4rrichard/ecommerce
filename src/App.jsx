@@ -24,9 +24,13 @@ function App() {
     }
   });
 
-  const [userFav, setUserFav] = useState(
-    () => JSON.parse(localStorage.getItem("userFavs")) ?? "[]"
-  );
+  const [userFav, setUserFav] = useState(() => {
+    if (user) {
+      return JSON.parse(localStorage.getItem(`${user.uid}Favs`)) ?? "[]";
+    } else {
+      return JSON.parse(localStorage.getItem("guestFavs")) ?? "[]";
+    }
+  });
 
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProductPage, setSelectedProductPage] = useState([]);
@@ -54,12 +58,16 @@ function App() {
   }, [selectedProduct]);
 
   useEffect(() => {
-    const data = localStorage.getItem("userFavs");
+    const data = user
+      ? localStorage.getItem(`${user.uid}Favs`)
+      : localStorage.getItem("guestFavs");
     setUserFav(JSON.parse(data));
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("userFavs", [JSON.stringify(userFav)]);
+    user
+      ? localStorage.setItem(`${user.uid}Favs`, [JSON.stringify(userFav)])
+      : localStorage.setItem("guestFavs", [JSON.stringify(userFav)]);
   }, [userFav]);
 
   return (
