@@ -3,7 +3,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ProductContext } from "../App";
+import { ProductContext } from "../context/ContextProvider";
 import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 

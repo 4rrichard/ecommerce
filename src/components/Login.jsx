@@ -188,7 +188,7 @@ export const Login = () => {
           </Box>
         )}
       </Box>
-      <LoginAsGuest />
+      {/* <LoginAsGuest /> */}
     </Box>
   );
 };

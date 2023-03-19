@@ -2,7 +2,7 @@ import { Box, Button, Rating, Typography, ButtonGroup } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useParams } from "react-router-dom";
-import { ProductContext } from "../App";
+import { ProductContext } from "../context/ContextProvider";
 import { auth } from "../firebase";
 
 const style = {

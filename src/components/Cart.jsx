@@ -3,7 +3,7 @@ import { Box, Typography, Button } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
-import { ProductContext } from "../App";
+import { ProductContext } from "../context/ContextProvider";
 import { auth } from "../firebase";
 import CartItems from "./CartItems";
 

@@ -16,7 +16,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 
-import { ProductContext } from "../App";
+import { ProductContext } from "../context/ContextProvider";
 
 import SelectedProducts from "./SelectedProducts";
 import SearchResults from "./SearchResults";

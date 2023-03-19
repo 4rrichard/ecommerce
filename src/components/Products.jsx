@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { ProductContext } from "../App";
+import { ProductContext } from "../context/ContextProvider";
 
 import { Box } from "@mui/material";
 

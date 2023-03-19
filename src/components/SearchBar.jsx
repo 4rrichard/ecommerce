@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ProductContext } from "../App";
+import { ProductContext } from "../context/ContextProvider";
 
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";

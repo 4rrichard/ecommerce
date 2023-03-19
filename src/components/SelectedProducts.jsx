@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { ProductContext } from "../App";
+import { ProductContext } from "../context/ContextProvider";
 
 const style = {
   selectedProdContainer: {

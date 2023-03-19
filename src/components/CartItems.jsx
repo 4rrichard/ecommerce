@@ -7,9 +7,9 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useContext, useEffect, useState } from "react";
-import { ProductContext } from "../App";
 import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { ProductContext } from "../context/ContextProvider";
 
 const CartItems = ({ product, checkDelete, setCheckDelete }) => {
   const [user] = useAuthState(auth);

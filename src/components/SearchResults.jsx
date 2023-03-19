@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ProductContext } from "../App";
+import { ProductContext } from "../context/ContextProvider";
 
 const style = {
   searchResContainer: {
