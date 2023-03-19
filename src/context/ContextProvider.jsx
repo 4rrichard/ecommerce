@@ -42,7 +42,7 @@ const ContextProvider = ({ children }) => {
       : localStorage.getItem("guest");
 
     setSelectedProduct(JSON.parse(data));
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     user
@@ -55,7 +55,7 @@ const ContextProvider = ({ children }) => {
       ? localStorage.getItem(`${user.uid}Favs`)
       : localStorage.getItem("guestFavs");
     setUserFav(JSON.parse(data));
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     user
