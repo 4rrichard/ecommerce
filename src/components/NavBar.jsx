@@ -85,9 +85,9 @@ const NavBar = () => {
     return ref;
   };
 
-  const handleHeaderClick = (event) => {
-    event.stopPropagation();
-  };
+  // const handleHeaderClick = (event) => {
+  //   event.stopPropagation();
+  // };
 
   const ref = useOutsideClick(handleClickOutside);
 
@@ -196,7 +196,7 @@ const NavBar = () => {
   // );
 
   return (
-    <Box sx={{ flexGrow: 1 }} onClick={handleHeaderClick}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="static"
         sx={{
