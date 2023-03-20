@@ -279,7 +279,7 @@ const NavBar = () => {
                   },
                 }}
                 component={Link}
-                to="/login"
+                to={!user ? "/login" : null}
                 onClick={handleMouseOutProfile}
               >
                 <AccountCircle />
