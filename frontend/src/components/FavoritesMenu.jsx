@@ -7,8 +7,8 @@ const style = {
   favProdContainer: {
     zIndex: "5",
     position: "absolute",
-    top: "80%",
-    right: "229px",
+    top: "100%",
+    right: "0",
     width: "auto",
     padding: "20px",
     backgroundColor: "#136A66",

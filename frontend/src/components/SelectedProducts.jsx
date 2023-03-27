@@ -7,8 +7,8 @@ const style = {
   selectedProdContainer: {
     zIndex: "5",
     position: "absolute",
-    top: "80%",
-    right: "24px",
+    top: "100%",
+    right: "0",
     padding: "20px",
     backgroundColor: "#136A66",
     borderRadius: "10px 0 10px 10px",

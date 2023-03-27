@@ -6,15 +6,12 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+
 import { Button, Typography, useMediaQuery } from "@mui/material";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import LoginIcon from "@mui/icons-material/Login";
 
 import { ProductContext } from "../context/ContextProvider";
 
@@ -31,8 +28,6 @@ const NavBar = () => {
   const { selectedProduct, userFav } = useContext(ProductContext);
   const [user] = useAuthState(auth);
 
-  // const [anchorEl, setAnchorEl] = useState(null);
-  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const matches = useMediaQuery("(min-width:900px)");
   const [isHoveringCart, setIsHoveringCart] = useState(false);
   const [isHoveringProfile, setIsHoveringProfile] = useState(false);
@@ -101,100 +96,6 @@ const NavBar = () => {
 
   const quantityFavsDisplay = userFav === "[]" ? "0" : userFav.length;
 
-  // const isMenuOpen = Boolean(anchorEl);
-  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  // const handleProfileMenuOpen = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleMobileMenuClose = () => {
-  //   setMobileMoreAnchorEl(null);
-  // };
-
-  // const handleMenuClose = () => {
-  //   setAnchorEl(null);
-  //   handleMobileMenuClose();
-  // };
-
-  // const handleMobileMenuOpen = (event) => {
-  //   setMobileMoreAnchorEl(event.currentTarget);
-  // };
-
-  // const menuId = "primary-search-account-menu";
-  // const renderMenu = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     anchorOrigin={{
-  //       vertical: "top",
-  //       horizontal: "right",
-  //     }}
-  //     id={menuId}
-  //     keepMounted
-  //     transformOrigin={{
-  //       vertical: "top",
-  //       horizontal: "right",
-  //     }}
-  //     open={isMenuOpen}
-  //     onClose={handleMenuClose}
-  //   >
-  //     {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
-  //   </Menu>
-  // );
-
-  // const mobileMenuId = "primary-search-account-menu-mobile";
-  // const renderMobileMenu = (
-  //   <Menu
-  //     anchorEl={mobileMoreAnchorEl}
-  //     anchorOrigin={{
-  //       vertical: "top",
-  //       horizontal: "right",
-  //     }}
-  //     id={mobileMenuId}
-  //     keepMounted
-  //     transformOrigin={{
-  //       vertical: "top",
-  //       horizontal: "right",
-  //     }}
-  //     open={isMobileMenuOpen}
-  //     onClose={handleMobileMenuClose}
-  //   >
-  //     <MenuItem component={Link} to="/cart">
-  //       <IconButton size="large" aria-label="show products" color="inherit">
-  //         <Badge badgeContent={quantityProdDisplay} color="error">
-  //           <ShoppingCartIcon />
-  //         </Badge>
-  //       </IconButton>
-  //       <p>Your Cart</p>
-  //     </MenuItem>
-
-  //     <MenuItem onClick={handleProfileMenuOpen}>
-  //       <IconButton
-  //         size="large"
-  //         aria-label="account of current user"
-  //         aria-controls="primary-search-account-menu"
-  //         aria-haspopup="true"
-  //         color="inherit"
-  //       >
-  //         <AccountCircle />
-  //       </IconButton>
-  //       <p>Profile</p>
-  //     </MenuItem>
-  //     <MenuItem>
-  //       <IconButton
-  //         size="large"
-  //         aria-label="login"
-  //         aria-haspopup="true"
-  //         color="inherit"
-  //       >
-  //         <LoginIcon />
-  //       </IconButton>
-  //       <p>Login</p>
-  //     </MenuItem>
-  //   </Menu>
-  // );
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -220,11 +121,12 @@ const NavBar = () => {
             setShowSearchResults={setShowSearchResults}
           />
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: "flex" }}>
             <Box
               onMouseOver={handleMouseOverFavs}
               onMouseOut={handleMouseOutFavs}
               sx={{
+                position: "relative",
                 "&:hover": {
                   backgroundColor: "#136A66",
                   borderRadius: "10px 10px 0 0",
@@ -248,7 +150,13 @@ const NavBar = () => {
                   <FavoriteBorderIcon />
                 </Badge>
                 {matches && (
-                  <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>
+                  <Typography
+                    sx={{
+                      display: { xs: "none", md: "flex" },
+                      paddingLeft: "10px",
+                      fontSize: "18px",
+                    }}
+                  >
                     Favorites
                   </Typography>
                 )}
@@ -262,6 +170,7 @@ const NavBar = () => {
               onMouseOver={handleMouseOverProfile}
               onMouseOut={handleMouseOutProfile}
               sx={{
+                position: "relative",
                 "&:hover": {
                   backgroundColor: "#136A66",
                   borderRadius: "10px 10px 0 0",
@@ -283,7 +192,13 @@ const NavBar = () => {
                 onClick={handleMouseOutProfile}
               >
                 <AccountCircle />
-                <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>
+                <Typography
+                  sx={{
+                    display: { xs: "none", md: "flex" },
+                    paddingLeft: "10px",
+                    fontSize: "18px",
+                  }}
+                >
                   Profile
                 </Typography>
               </IconButton>
@@ -296,6 +211,7 @@ const NavBar = () => {
               onMouseOver={handleMouseOverCart}
               onMouseOut={handleMouseOutCart}
               sx={{
+                position: "relative",
                 "&:hover": {
                   backgroundColor: "#136A66",
                   borderRadius: "10px 10px 0 0",
@@ -313,7 +229,13 @@ const NavBar = () => {
                 <Badge badgeContent={quantityProdDisplay} color="error">
                   <ShoppingCartIcon />
                 </Badge>
-                <Typography sx={{ paddingLeft: "10px", fontSize: "18px" }}>
+                <Typography
+                  sx={{
+                    display: { xs: "none", md: "flex" },
+                    paddingLeft: "10px",
+                    fontSize: "18px",
+                  }}
+                >
                   Cart
                 </Typography>
               </IconButton>
@@ -322,22 +244,8 @@ const NavBar = () => {
               )}
             </Box>
           </Box>
-          {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box> */}
         </Toolbar>
       </AppBar>
-      {/* {renderMobileMenu} */}
-      {/* {renderMenu} */}
 
       {showSearchResults && searchedProducts.length !== 0 && (
         <SearchResults searchedProducts={searchedProducts} />

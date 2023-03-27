@@ -10,8 +10,8 @@ const style = {
   profileMenuContainer: {
     zIndex: "5",
     position: "absolute",
-    top: "80%",
-    right: "117px",
+    top: "100%",
+    right: "0",
     width: "200px",
     padding: "20px",
     display: "flex",
