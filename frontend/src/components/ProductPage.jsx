@@ -46,6 +46,17 @@ const style = {
     flexDirection: "column",
     gap: "20px",
   },
+  btnRemove: {
+    backgroundColor: "#459C98",
+    "&:hover": {
+      backgroundColor: "#136A66",
+    },
+    "&.Mui-disabled": {
+      background: "lightgrey",
+      color: "black",
+      opacity: "30%",
+    },
+  },
   button: {
     backgroundColor: "#459C98",
     "&:hover": {
@@ -164,13 +175,7 @@ const ProductPage = () => {
                     onClick={() => {
                       setCounter(counter - 1);
                     }}
-                    sx={{
-                      "&.Mui-disabled": {
-                        background: "lightgrey",
-                        color: "black",
-                        opacity: "30%",
-                      },
-                    }}
+                    sx={style.btnRemove}
                   >
                     -
                   </Button>

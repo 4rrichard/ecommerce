@@ -11,6 +11,26 @@ import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ProductContext } from "../context/ContextProvider";
 
+const style = {
+  btnRemove: {
+    backgroundColor: "#459C98",
+    "&:hover": {
+      backgroundColor: "#136A66",
+    },
+    "&.Mui-disabled": {
+      background: "lightgrey",
+      color: "black",
+      opacity: "30%",
+    },
+  },
+  btnAdd: {
+    backgroundColor: "#459C98",
+    "&:hover": {
+      backgroundColor: "#136A66",
+    },
+  },
+};
+
 const CartItems = ({ product, checkDelete, setCheckDelete }) => {
   const [user] = useAuthState(auth);
 
@@ -102,13 +122,7 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
               setCounter(counter - 1);
               quantityReduce();
             }}
-            sx={{
-              "&.Mui-disabled": {
-                background: "lightgrey",
-                color: "black",
-                opacity: "30%",
-              },
-            }}
+            sx={style.btnRemove}
           >
             -
           </Button>
@@ -130,6 +144,7 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
 
         <Button
           variant="contained"
+          sx={style.btnAdd}
           onClick={() => {
             setCounter(counter + 1);
             quantityRaise();

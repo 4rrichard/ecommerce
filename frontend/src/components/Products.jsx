@@ -13,9 +13,15 @@ const Products = () => {
     <Box width={1} sx={{ display: "flex", justifyContent: "center" }}>
       <Box
         display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
         gap={2}
-        sx={{ margin: "10%" }}
+        sx={{
+          gridTemplateColumns: {
+            xs: "repeat(4, 1fr)",
+            sm: "repeat(8, 1fr)",
+            md: "repeat(12, 1fr)",
+          },
+          margin: "10%",
+        }}
       >
         {allProducts.map((fullProduct, id) => (
           <Product fullProduct={fullProduct} key={id} />

@@ -30,7 +30,16 @@ const style = {
     display: "flex",
     justifyContent: "center",
   },
-  productTitle: { height: "20%", color: "black" },
+  productTitle: {
+    height: "15%",
+    width: "calc(100%)",
+    color: "black",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: "2",
+    WebkitBoxOrient: "vertical",
+  },
   productPrice: {
     height: "10%",
     color: "black",
@@ -181,11 +190,8 @@ const Product = ({ fullProduct }) => {
           {isHoveringFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
       </Box>
-      <Typography sx={style.productTitle}>{`${
-        fullProduct.title.length >= 50
-          ? fullProduct.title.substring(0, 50) + "..."
-          : fullProduct.title
-      }`}</Typography>
+      <Typography sx={style.productTitle}>{fullProduct.title}</Typography>
+
       <Typography sx={style.productPrice}>
         {`${fullProduct.price} $`}
       </Typography>
