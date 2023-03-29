@@ -76,8 +76,8 @@ const Product = ({ fullProduct }) => {
       setSelectedProduct([chosenProduct]);
     } else if (selectedProduct.some((e) => e.id === chosenProduct.id)) {
       const data = user
-        ? localStorage.getItem(user.uid)
-        : localStorage.getItem("guest");
+        ? JSON.parse(localStorage.getItem(user.uid))
+        : JSON.parse(localStorage.getItem("guest"));
       for (let i = 0; i < data.length; i++) {
         if (chosenProduct.id === data[i].id) {
           data[i].quantity += 1;

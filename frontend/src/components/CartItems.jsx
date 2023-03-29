@@ -58,10 +58,6 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
     setCheckDelete(!checkDelete);
   };
 
-  const data = user
-    ? JSON.parse(localStorage.getItem(user.uid))
-    : JSON.parse(localStorage.getItem("guest"));
-
   const quantityRaise = () => {
     const data = user
       ? JSON.parse(localStorage.getItem(user.uid))
