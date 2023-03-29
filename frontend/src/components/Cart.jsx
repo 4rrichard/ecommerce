@@ -4,8 +4,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../context/ContextProvider";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import CartItems from "./CartItems";
+
+import { collection, query, getDocs } from "firebase/firestore";
 
 const Cart = () => {
   const [user] = useAuthState(auth);
@@ -13,6 +15,7 @@ const Cart = () => {
   const { selectedProduct, setSelectedProduct } = useContext(ProductContext);
 
   const [checkDelete, setCheckDelete] = useState(false);
+  const [DBdata, setDBdata] = useState([]);
 
   const calcQuantity =
     selectedProduct !== "[]" &&
@@ -28,6 +31,53 @@ const Cart = () => {
       : localStorage.getItem("guest");
     setSelectedProduct(JSON.parse(data));
   }, [checkDelete]);
+
+  const checkout = async () => {
+    const prods = [];
+
+    DBdata.length !== 0 &&
+      DBdata !== "[]" &&
+      selectedProduct !== "[]" &&
+      selectedProduct.length !== 0 &&
+      selectedProduct.map((item1) => {
+        DBdata.map((item2) => {
+          if (item1.title === item2.name) {
+            return prods.push({ ...item1, id: item2.id });
+          }
+        });
+      });
+
+    await fetch("http://localhost:4000/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ items: prods }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.url) {
+          window.location.assign(response.url);
+        }
+      });
+  };
+
+  useEffect(() => {
+    (async () => {
+      const prodDB = collection(db, "products");
+      const snapshots = await getDocs(prodDB);
+
+      const docs = snapshots.docs.map((doc) => {
+        const data = doc.data();
+        return data;
+      });
+      setDBdata(docs);
+    })();
+  }, []);
+
+  console.log(DBdata);
 
   return (
     <Box sx={{ height: "500px", margin: "10% 15%" }}>
@@ -80,7 +130,7 @@ const Cart = () => {
             <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
               {calcQuantity} $
             </Typography>
-            <Button variant="contained" component={Link} to="/login">
+            <Button variant="contained" onClick={checkout}>
               Checkout now
             </Button>
           </Box>

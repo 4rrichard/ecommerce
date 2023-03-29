@@ -8,6 +8,8 @@ import ProductPage from "./components/ProductPage";
 import Products from "./components/Products";
 import Register from "./components/Register";
 import Favorites from "./components/Favorites";
+import PaymentSuccess from "./components/PaymentSuccess";
+import PaymentCancel from "./components/PaymentCancel";
 
 function App() {
   return (
@@ -17,7 +19,9 @@ function App() {
         <Route path="/" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/checkout" element={<CheckOut />} />
+
+        <Route path="/success" element={<PaymentSuccess />} />
+        <Route path="/cancel" element={<PaymentCancel />} />
         <Route path="/register" element={<Register />} />
         <Route path="/favorites" element={<Favorites />} />
 
