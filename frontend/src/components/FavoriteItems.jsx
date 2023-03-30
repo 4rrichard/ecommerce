@@ -13,29 +13,43 @@ const style = {
   productImgTitleContainer: {
     marginBottom: "10px",
     display: "flex",
-    flex: 1,
+    flexBasis: { xs: "80%", md: "60%" },
+    flexGrow: "0",
+    flexShrink: "0",
   },
   imgBg: {
+    width: { xs: "70px", md: "120px" },
+    height: { xs: "70px", md: "120px" },
     marginRight: "10px",
     padding: "2%",
     display: "flex",
     alignContent: "center",
+    justifyContent: "center",
     backgroundColor: "white",
     borderRadius: "3px",
   },
-  img: { maxWidth: "80px", height: "auto" },
+
   addToCartBtn: {
+    maxWidth: "max-content",
     backgroundColor: "#459C98",
     "&:hover": {
       backgroundColor: "#136A66",
     },
   },
-  productPrice: { flex: 1, textAlign: "center" },
+  productPrice: {
+    flexBasis: { xs: "10%", md: "20%" },
+    flexGrow: "0",
+    flexShrink: "0",
+    textAlign: "center",
+  },
   delBtn: {
     height: "40px",
     padding: "0",
     alignItems: "flex-start",
     color: "white",
+    flexBasis: { xs: "10%", md: "20%" },
+    flexGrow: "0",
+    flexShrink: "0",
   },
 };
 
@@ -61,7 +75,14 @@ const FavoriteItems = ({ product, checkDelete, setCheckDelete }) => {
         <Box sx={style.imgBg}>
           <Box component="img" src={product.image} sx={style.img} />
         </Box>
-        <Box>
+        <Box
+          sx={{
+            flex: "1",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
           <Typography>{product.title}</Typography>
           <Button variant="contained" sx={style.addToCartBtn}>
             Add to cart

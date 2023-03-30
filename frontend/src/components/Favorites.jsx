@@ -11,13 +11,15 @@ const style = {
     width: "100vw",
     height: "90vh",
     display: "flex",
+    flexDirection: { xs: "column-reverse", md: "row" },
     justifyContent: "center",
     alignItems: "center",
-    gap: "100px",
   },
   favoritePageLoginContainer: {
-    width: "20%",
-    padding: "40px",
+    flexBasis: "25%",
+    flexGrow: "0",
+    flexShrink: "0",
+    padding: "20px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -28,7 +30,10 @@ const style = {
     backgroundColor: "black",
   },
   favoriteItemContainer: {
-    width: "50%",
+    paddingLeft: "30px",
+    flexBasis: "65%",
+    flexGrow: "0",
+    flexShrink: "0",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -78,7 +83,7 @@ const Favorites = () => {
         <Typography>
           Login or Create a new account to save your favorites
         </Typography>
-        <Box>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Button
             variant="contained"
             component={Link}
