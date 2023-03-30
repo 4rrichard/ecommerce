@@ -9,6 +9,35 @@ import CartItems from "./CartItems";
 
 import { collection, query, getDocs } from "firebase/firestore";
 
+const style = {
+  headerDescTitle: {
+    flexBasis: "30%",
+    flexGrow: "0",
+    flexShrink: "0",
+  },
+  headerAmountTitle: {
+    flexBasis: "calc(50% - 32px)",
+    flexGrow: "0",
+    flexShrink: "0",
+  },
+  headerPriceTitle: {
+    flexBasis: "calc(5% - 32px)",
+    flexGrow: "0",
+    flexShrink: "0",
+  },
+  checkoutContainer: {
+    maxWidth: "fit-content",
+    margin: "20px auto 0 auto",
+    padding: "20px",
+    display: "flex",
+    gap: { xs: "15px", md: "100px" },
+    flexDirection: { xs: "column", md: "row" },
+    justifyContent: "space-between",
+    backgroundColor: "#1F2223",
+    color: "lightgrey",
+  },
+};
+
 const Cart = () => {
   const [user] = useAuthState(auth);
 
@@ -80,7 +109,7 @@ const Cart = () => {
   console.log(DBdata);
 
   return (
-    <Box sx={{ height: "500px", margin: "10% 15%" }}>
+    <Box sx={{ height: "500px", margin: "10%" }}>
       <Typography sx={{ fontSize: "40px", textAlign: "center" }}>
         Your cart
       </Typography>
@@ -89,15 +118,15 @@ const Cart = () => {
           <Box>
             <Box
               sx={{
-                display: "flex",
+                display: { xs: "none", md: "flex" },
 
                 textAlign: "center",
                 borderBottom: "solid 1px grey",
               }}
             >
-              <Typography sx={{ flex: 1 }}>Description</Typography>
-              <Typography sx={{ flex: 1 }}>Amount</Typography>
-              <Typography sx={{ flex: 1 }}>Price</Typography>
+              <Typography sx={style.headerDescTitle}>Description</Typography>
+              <Typography sx={style.headerAmountTitle}>Amount</Typography>
+              <Typography sx={style.headerPriceTitle}>Price</Typography>
             </Box>
             <Box>
               {selectedProduct !== "[]" &&
@@ -112,24 +141,16 @@ const Cart = () => {
                 ))}
             </Box>
           </Box>
-          <Box
-            sx={{
-              width: "70%",
-              marginLeft: "15%",
-              marginTop: "20px",
-              padding: "20px",
-              display: "flex",
-              justifyContent: "space-between",
-              backgroundColor: "#1F2223",
-              color: "lightgrey",
-            }}
-          >
-            <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-              Cart total:
-            </Typography>
-            <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-              {calcQuantity} $
-            </Typography>
+          <Box sx={style.checkoutContainer}>
+            <Box sx={{ display: "flex", gap: "20px" }}>
+              <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                Cart total:
+              </Typography>
+              <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                {calcQuantity} $
+              </Typography>
+            </Box>
+
             <Button variant="contained" onClick={checkout}>
               Checkout now
             </Button>

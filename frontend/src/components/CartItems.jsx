@@ -12,6 +12,47 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { ProductContext } from "../context/ContextProvider";
 
 const style = {
+  productContainer: {
+    paddingTop: "20px",
+    paddingBottom: { xs: "20px", md: "0" },
+    display: "flex",
+    flexWrap: { xs: "wrap", md: "nowrap" },
+
+    borderBottom: "solid 1px grey",
+  },
+  imgNameContainer: {
+    display: "flex",
+    flexBasis: { xs: "80%", md: "40%" },
+    flexGrow: "0",
+    flexShrink: "0",
+    order: { xs: "1" },
+  },
+  imgContainer: {
+    width: { xs: "70px", md: "120px" },
+    height: { xs: "70px", md: "120px" },
+    margin: "0 10px 10px 0",
+    padding: "10px",
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    backgroundColor: "white",
+    borderRadius: "5px",
+  },
+  btnGroupContainer: {
+    height: "30px",
+    justifyContent: "center",
+    flexBasis: { xs: "75%", md: "calc(30% - 32px)" },
+    flexGrow: "0",
+    flexShrink: "0",
+    order: { xs: "3", md: "2" },
+  },
+  price: {
+    textAlign: "center",
+    flexBasis: { xs: "calc(25% - 32px)", md: "calc(28% - 32px)" },
+    flexGrow: "0",
+    flexShrink: "0",
+    order: { xs: "4", md: "3" },
+  },
   btnRemove: {
     backgroundColor: "#459C98",
     "&:hover": {
@@ -28,6 +69,16 @@ const style = {
     "&:hover": {
       backgroundColor: "#136A66",
     },
+  },
+  btnDelProd: {
+    height: "40px",
+    padding: "0",
+    alignItems: "flex-start",
+    color: "white",
+    flexBasis: { xs: "calc(20% - 32px)", md: "calc(5% - 32px)" },
+    flexGrow: "0",
+    flexShrink: "0",
+    order: { xs: "2", md: "4" },
   },
 };
 
@@ -83,32 +134,18 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
   };
 
   return (
-    <Box
-      sx={{
-        paddingTop: "20px",
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "solid 1px grey",
-      }}
-    >
-      <Box
-        sx={{
-          marginBottom: "10px",
-          display: "flex",
-          flex: 1,
-        }}
-      >
-        <Box
-          component="img"
-          src={product.image}
-          sx={{ width: "70px", marginRight: "10px" }}
-        />
-        <Typography>{product.title}</Typography>
+    <Box sx={style.productContainer}>
+      <Box sx={style.imgNameContainer}>
+        <Box sx={style.imgContainer}>
+          <Box component="img" src={product.image} sx={{ width: "auto" }} />
+        </Box>
+
+        <Typography sx={{ flex: "1" }}>{product.title}</Typography>
       </Box>
       <ButtonGroup
         size="big"
         aria-label="small outlined button group"
-        sx={{ height: "30px", flex: "1", justifyContent: "center" }}
+        sx={style.btnGroupContainer}
       >
         {
           <Button
@@ -150,17 +187,10 @@ const CartItems = ({ product, checkDelete, setCheckDelete }) => {
         </Button>
       </ButtonGroup>
 
-      <Typography sx={{ flex: 1, textAlign: "center" }}>
-        {product.price * counter} $
-      </Typography>
+      <Typography sx={style.price}>{product.price * counter} $</Typography>
       <IconButton
         aria-label="delete"
-        sx={{
-          height: "40px",
-          padding: "0",
-          alignItems: "flex-start",
-          color: "white",
-        }}
+        sx={style.btnDelProd}
         onClick={handleDelete}
       >
         <DeleteIcon />
