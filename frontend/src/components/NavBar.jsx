@@ -6,8 +6,9 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
+import HomeIcon from "@mui/icons-material/Home";
 
-import { Button, Typography, useMediaQuery } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -28,7 +29,6 @@ const NavBar = () => {
   const { selectedProduct, userFav } = useContext(ProductContext);
   const [user] = useAuthState(auth);
 
-  const matches = useMediaQuery("(min-width:900px)");
   const [isHoveringCart, setIsHoveringCart] = useState(false);
   const [isHoveringProfile, setIsHoveringProfile] = useState(false);
   const [isHoveringFavs, setIsHoveringFavs] = useState(false);
@@ -115,6 +115,14 @@ const NavBar = () => {
             WEBSHOP
           </Button>
 
+          <IconButton
+            component={Link}
+            to="/"
+            sx={{ display: { xs: "block", sm: "none" }, color: "white" }}
+          >
+            <HomeIcon />
+          </IconButton>
+
           <SearchBar
             reference={ref}
             setSearchedProducts={setSearchedProducts}
@@ -149,17 +157,16 @@ const NavBar = () => {
                 <Badge badgeContent={quantityFavsDisplay} color="error">
                   <FavoriteBorderIcon />
                 </Badge>
-                {matches && (
-                  <Typography
-                    sx={{
-                      display: { xs: "none", md: "flex" },
-                      paddingLeft: "10px",
-                      fontSize: "18px",
-                    }}
-                  >
-                    Favorites
-                  </Typography>
-                )}
+
+                <Typography
+                  sx={{
+                    display: { xs: "none", md: "flex" },
+                    paddingLeft: "10px",
+                    fontSize: "18px",
+                  }}
+                >
+                  Favorites
+                </Typography>
               </IconButton>
               {isHoveringFavs && (
                 <FavoritesMenu mouseClick={handleMouseOutFavs} />

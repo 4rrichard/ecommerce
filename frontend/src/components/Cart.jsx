@@ -90,6 +90,13 @@ const Cart = () => {
         if (response.url) {
           window.location.assign(response.url);
         }
+        if (response.url === "http://localhost:5173/success") {
+          if (user) {
+            localStorage.removeItem(user.uid);
+          } else {
+            localStorage.removeItem("guest");
+          }
+        }
       });
   };
 
@@ -105,8 +112,6 @@ const Cart = () => {
       setDBdata(docs);
     })();
   }, []);
-
-  console.log(DBdata);
 
   return (
     <Box sx={{ height: "500px", margin: "10%" }}>
