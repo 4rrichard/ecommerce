@@ -4,10 +4,10 @@
 White Gold Plated Princess : price_1MnfHgKtMN1C4Z0pV6tohVNf
 Solid Gold Petite Micropave : price_1MnfGkKtMN1C4Z0plXENelS8
 John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet : price_1MnfG8KtMN1C4Z0piEX1YxEk
-Mens Casual Slim Fit : price_1MnfFTKtMN1C4Z0poZ68zusF
-Mens Cotton Jacket : price_1MnfEbKtMN1C4Z0po4FWEdvF
-Mens Casual Premium Slim Fit T-Shirts : price_1MnfDfKtMN1C4Z0pJXxRBcE5
-Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops : price_1MnfBaKtMN1C4Z0phBPeft4f
+Mens Casual Slim Fit : price_1MsmzsKtMN1C4Z0pF4sq7Qud
+Mens Cotton Jacket : price_1MsmzCKtMN1C4Z0ptGeqcjuS
+Mens Casual Premium Slim Fit T-Shirts : price_1Msn27KtMN1C4Z0pAOziB5AK
+Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops : price_1MsmyMKtMN1C4Z0pR8kmRWHF
 */
 const express = require("express");
 const cors = require("cors");
