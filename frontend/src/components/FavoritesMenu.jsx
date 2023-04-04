@@ -32,7 +32,7 @@ const FavoritesMenu = ({ mouseClick }) => {
 
   return (
     <Box sx={style.favProdContainer}>
-      {userFav !== "[]" && userFav.length !== 0 ? (
+      {userFav !== "[]" && userFav?.length !== 0 ? (
         <Box sx={{ paddingBottom: "10px" }}>
           <Button
             variant="contained"
@@ -61,8 +61,9 @@ const FavoritesMenu = ({ mouseClick }) => {
         }}
       >
         {userFav !== "[]" &&
-          userFav.length !== 0 &&
-          [...userFav].reverse().map((product, id) => (
+          userFav?.length !== 0 &&
+          userFav !== null &&
+          [...userFav]?.reverse()?.map((product, id) => (
             <Box
               sx={{
                 width: "300px",

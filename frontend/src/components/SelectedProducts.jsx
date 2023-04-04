@@ -30,23 +30,23 @@ const SelectedProducts = ({ mouseClick }) => {
   const { selectedProduct } = useContext(ProductContext);
 
   const calcQuantity =
-    selectedProduct !== "[]" && selectedProduct.length !== 0
+    selectedProduct !== "[]" && selectedProduct?.length !== 0
       ? selectedProduct
-          .map((prod) => prod.price * prod.quantity)
+          ?.map((prod) => prod.price * prod.quantity)
           .reduce((total, currentValue) => total + currentValue, 0)
           .toFixed(2)
       : null;
 
   return (
     <Box sx={style.selectedProdContainer}>
-      {selectedProduct !== "[]" && selectedProduct.length !== 0 ? (
+      {selectedProduct !== "[]" && selectedProduct?.length !== 0 ? (
         <Box sx={{ paddingBottom: "10px" }}>
           <Typography sx={{ fontSize: "20px" }}>
-            {selectedProduct.reduce(
+            {selectedProduct?.reduce(
               (total, currentValue) => (total = total + currentValue.quantity),
               0
             )}{" "}
-            product{selectedProduct.length > 1 && "s"} in your cart
+            product{selectedProduct?.length > 1 && "s"} in your cart
           </Typography>
           <Typography sx={{ fontWeight: "bold", fontSize: "25px" }}>
             {calcQuantity}$
@@ -78,8 +78,8 @@ const SelectedProducts = ({ mouseClick }) => {
         }}
       >
         {selectedProduct !== "[]" &&
-          selectedProduct.length !== 0 &&
-          selectedProduct.map((product, id) => (
+          selectedProduct?.length !== 0 &&
+          selectedProduct?.map((product, id) => (
             <Box
               sx={{
                 width: "300px",

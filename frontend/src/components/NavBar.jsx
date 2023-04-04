@@ -87,14 +87,15 @@ const NavBar = () => {
   const ref = useOutsideClick(handleClickOutside);
 
   const quantityProdDisplay =
-    selectedProduct === "[]" || selectedProduct.length === 0
+    selectedProduct === "[]" && selectedProduct?.length === 0
       ? "0"
-      : selectedProduct.reduce(
+      : selectedProduct?.reduce(
           (total, currentValue) => (total = total + currentValue.quantity),
           0
         );
 
-  const quantityFavsDisplay = userFav === "[]" ? "0" : userFav.length;
+  const quantityFavsDisplay =
+    userFav === "[]" && userFav?.length === 0 ? "0" : userFav?.length;
 
   return (
     <Box sx={{ flexGrow: 1 }}>

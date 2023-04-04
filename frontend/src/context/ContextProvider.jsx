@@ -19,9 +19,9 @@ const ContextProvider = ({ children }) => {
 
   const [userFav, setUserFav] = useState(() => {
     if (user) {
-      return JSON.parse(localStorage.getItem(`${user.uid}Favs`)) ?? "[]";
+      return JSON.parse(localStorage.getItem(`${user.uid}Favs`)) ?? [];
     } else {
-      return JSON.parse(localStorage.getItem("guestFavs")) ?? "[]";
+      return JSON.parse(localStorage.getItem("guestFavs")) ?? [];
     }
   });
 

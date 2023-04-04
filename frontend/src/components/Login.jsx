@@ -70,8 +70,17 @@ export const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        // const user = userCredential.user;
+        const user = userCredential.user;
+
+        if (!Object.keys(localStorage).includes(user.uid)) {
+          localStorage.setItem(user.uid, JSON.stringify([]));
+        }
+        if (!Object.keys(localStorage).includes(`${user.uid}Favs`)) {
+          localStorage.setItem(`${user.uid}Favs`, JSON.stringify([]));
+        }
+        setLoading(false);
         navigate("/");
+
         // ...
       })
       .catch((error) => {

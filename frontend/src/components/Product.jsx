@@ -155,8 +155,8 @@ const Product = ({ fullProduct }) => {
   };
 
   useEffect(() => {
-    if (userFav !== "[]") {
-      if (userFav.some((e) => e.id === fullProduct.id)) {
+    if (userFav !== "[]" && userFav?.length !== 0) {
+      if (userFav?.some((e) => e.id === fullProduct.id)) {
         setIsHoveringFavorite(true);
       }
     }
