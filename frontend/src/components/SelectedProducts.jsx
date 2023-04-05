@@ -33,7 +33,7 @@ const SelectedProducts = ({ mouseClick }) => {
     selectedProduct !== "[]" && selectedProduct?.length !== 0
       ? selectedProduct
           ?.map((prod) => prod.price * prod.quantity)
-          .reduce((total, currentValue) => total + currentValue, 0)
+          ?.reduce((total, currentValue) => total + currentValue, 0)
           .toFixed(2)
       : null;
 

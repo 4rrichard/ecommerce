@@ -39,9 +39,7 @@ const style = {
     justifyContent: "center",
     alignItems: "center",
   },
-  favePageTitle: {
-    borderBottom: "1px solid grey",
-  },
+
   loginBtn: {
     width: "100%",
     marginBottom: "20px",
@@ -106,21 +104,31 @@ const Favorites = () => {
         <Typography variant="h4" sx={style.favePageTitle}>
           Your favorites
         </Typography>
-
-        <Box>
-          {userFav !== "[]" &&
-            userFav.length !== 0 &&
-            [...userFav]
-              .reverse()
-              .map((product, id) => (
-                <FavoriteItems
-                  product={product}
-                  key={id}
-                  checkDelete={checkDelete}
-                  setCheckDelete={setCheckDelete}
-                />
-              ))}
-        </Box>
+        {userFav !== "[]" && userFav.length !== 0 ? (
+          <Box>
+            {userFav !== "[]" &&
+              userFav.length !== 0 &&
+              [...userFav]
+                .reverse()
+                .map((product, id) => (
+                  <FavoriteItems
+                    product={product}
+                    key={id}
+                    checkDelete={checkDelete}
+                    setCheckDelete={setCheckDelete}
+                  />
+                ))}
+          </Box>
+        ) : (
+          <Box sx={{ width: "100%", textAlign: "center", marginTop: "100px" }}>
+            <Typography sx={{ fontSize: "24px", marginBottom: "20px" }}>
+              Your favorite is currently empty
+            </Typography>
+            <Button variant="contained" component={Link} to="/">
+              Continue shopping
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   );

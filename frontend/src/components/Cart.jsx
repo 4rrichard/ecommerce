@@ -2,7 +2,7 @@ import { Box, Typography, Button } from "@mui/material";
 
 import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ProductContext } from "../context/ContextProvider";
 import { auth, db } from "../firebase";
 import CartItems from "./CartItems";
@@ -42,6 +42,8 @@ const Cart = () => {
   const [user] = useAuthState(auth);
 
   const { selectedProduct, setSelectedProduct } = useContext(ProductContext);
+
+  const navigate = useNavigate();
 
   const [checkDelete, setCheckDelete] = useState(false);
   const [DBdata, setDBdata] = useState([]);
