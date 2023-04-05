@@ -68,13 +68,13 @@ const ContextProvider = ({ children }) => {
       !Object.keys(localStorage).includes("guest") ||
       localStorage.guest === null
     ) {
-      localStorage.setItem("guest", JSON.stringify([]));
+      localStorage.setItem("guest", JSON.stringify("[]"));
     }
     if (
       !Object.keys(localStorage).includes("guestFavs") ||
       localStorage.guestFavs === null
     ) {
-      localStorage.setItem("guestFavs", JSON.stringify([]));
+      localStorage.setItem("guestFavs", JSON.stringify("[]"));
     }
   }, []);
 
