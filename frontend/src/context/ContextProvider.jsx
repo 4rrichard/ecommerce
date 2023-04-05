@@ -63,23 +63,6 @@ const ContextProvider = ({ children }) => {
       : localStorage.setItem("guestFavs", [JSON.stringify(userFav)]);
   }, [userFav]);
 
-  useEffect(() => {
-    if (
-      !Object.keys(localStorage).includes("guest") ||
-      localStorage.guest === null
-    ) {
-      localStorage.setItem("guest", JSON.stringify("[]"));
-    }
-    if (
-      !Object.keys(localStorage).includes("guestFavs") ||
-      localStorage.guestFavs === null
-    ) {
-      localStorage.setItem("guestFavs", JSON.stringify("[]"));
-    }
-  }, []);
-
-  console.log(localStorage.guest);
-
   return (
     <ProductContext.Provider
       value={{
