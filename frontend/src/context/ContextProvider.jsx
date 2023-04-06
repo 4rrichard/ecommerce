@@ -9,21 +9,9 @@ export const ProductContext = createContext();
 const ContextProvider = ({ children }) => {
   const [user] = useAuthState(auth);
 
-  const [selectedProduct, setSelectedProduct] = useState(() => {
-    if (user) {
-      return JSON.parse(localStorage.getItem(user.uid)) ?? "[]";
-    } else {
-      return JSON.parse(localStorage.getItem("guest")) ?? "[]";
-    }
-  });
+  const [selectedProduct, setSelectedProduct] = useState("[]");
 
-  const [userFav, setUserFav] = useState(() => {
-    if (user) {
-      return JSON.parse(localStorage.getItem(`${user.uid}Favs`)) ?? [];
-    } else {
-      return JSON.parse(localStorage.getItem("guestFavs")) ?? [];
-    }
-  });
+  const [userFav, setUserFav] = useState("[]");
 
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProductPage, setSelectedProductPage] = useState([]);
@@ -38,8 +26,8 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     const data = user
-      ? localStorage.getItem(user.uid)
-      : localStorage.getItem("guest");
+      ? localStorage.getItem(user.uid) ?? "[]"
+      : localStorage.getItem("guest") ?? "[]";
 
     setSelectedProduct(JSON.parse(data));
   }, [user]);
@@ -52,8 +40,8 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     const data = user
-      ? localStorage.getItem(`${user.uid}Favs`)
-      : localStorage.getItem("guestFavs");
+      ? localStorage.getItem(`${user.uid}Favs`) ?? "[]"
+      : localStorage.getItem("guestFavs") ?? "[]";
     setUserFav(JSON.parse(data));
   }, [user]);
 
