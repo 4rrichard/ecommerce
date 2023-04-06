@@ -18,6 +18,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 import GoogleButton from "react-google-button";
 
@@ -51,6 +53,7 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [user] = useAuthState(auth);
+  const [loginError, setLoginError] = useState(false);
 
   const [values, setValues] = useState({
     password: "",
@@ -85,8 +88,8 @@ export const Login = () => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        // const errorMessage = error.message;
-        console.log(errorCode);
+        setLoginError(true);
+        console.log(errorCode, errorMessage);
       });
   };
 
@@ -114,7 +117,7 @@ export const Login = () => {
   return (
     <Box sx={style.boxContainer}>
       <Box>
-        {loading ? (
+        {loading && loginError === false ? (
           <CircularProgress />
         ) : (
           <Box sx={style.inputContainer}>
@@ -167,6 +170,12 @@ export const Login = () => {
               >
                 Log In
               </Button>
+              {loginError && (
+                <Alert severity="error">
+                  <AlertTitle>Error</AlertTitle>
+                  Email or Password is wrong — <strong>try again!</strong>
+                </Alert>
+              )}
               <Box
                 sx={{
                   display: "flex",
