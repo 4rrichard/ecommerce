@@ -72,7 +72,17 @@ const Register = () => {
         updateProfile(auth.currentUser, {
           displayName: fullName,
         });
-
+        if (localStorage.guest.length !== 0 || localStorage.guest !== "[]") {
+          const data = JSON.parse(localStorage.getItem("guest"));
+          localStorage.setItem(user.uid, [JSON.stringify(data)]);
+        }
+        if (
+          localStorage.guestFavs.length !== 0 ||
+          localStorage.guestFavs !== "[]"
+        ) {
+          const data = JSON.parse(localStorage.getItem("guestFavs"));
+          localStorage.setItem(`${user.uid}Favs`, [JSON.stringify(data)]);
+        }
         handleOpen();
       })
       .catch((error) => {

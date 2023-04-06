@@ -7,7 +7,7 @@ import { ProductContext } from "../context/ContextProvider";
 import { auth, db } from "../firebase";
 import CartItems from "./CartItems";
 
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 const style = {
   headerDescTitle: {
@@ -64,55 +64,61 @@ const Cart = () => {
   }, [checkDelete]);
 
   const checkout = async () => {
-    const prods = [];
+    if (!user) {
+      navigate("/register");
+    } else {
+      const prods = [];
 
-    DBdata.length !== 0 &&
-      DBdata !== "[]" &&
-      selectedProduct !== "[]" &&
-      selectedProduct.length !== 0 &&
-      selectedProduct.map((item1) => {
-        DBdata.map((item2) => {
-          if (item1.title === item2.name) {
-            return prods.push({ ...item1, id: item2.id });
+      DBdata.length !== 0 &&
+        DBdata !== "[]" &&
+        selectedProduct !== "[]" &&
+        selectedProduct.length !== 0 &&
+        selectedProduct.map((item1) => {
+          DBdata.map((item2) => {
+            if (item1.title === item2.name) {
+              return prods.push({ ...item1, id: item2.id });
+            }
+          });
+        });
+
+      await fetch("http://localhost:4000/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ items: prods }),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          if (response.url) {
+            window.location.assign(response.url);
+          }
+          if (response.url === "http://localhost:5173/success") {
+            if (user) {
+              localStorage.removeItem(user.uid);
+            } else {
+              localStorage.removeItem("guest");
+            }
           }
         });
-      });
-
-    await fetch("http://localhost:4000/checkout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ items: prods }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        if (response.url) {
-          window.location.assign(response.url);
-        }
-        if (response.url === "http://localhost:5173/success") {
-          if (user) {
-            localStorage.removeItem(user.uid);
-          } else {
-            localStorage.removeItem("guest");
-          }
-        }
-      });
+    }
   };
 
   useEffect(() => {
-    (async () => {
-      const prodDB = collection(db, "products");
-      const snapshots = await getDocs(prodDB);
+    if (user) {
+      (async () => {
+        const prodDB = collection(db, "products");
+        const snapshots = await getDocs(prodDB);
 
-      const docs = snapshots.docs.map((doc) => {
-        const data = doc.data();
-        return data;
-      });
-      setDBdata(docs);
-    })();
+        const docs = snapshots.docs.map((doc) => {
+          const data = doc.data();
+          return data;
+        });
+        setDBdata(docs);
+      })();
+    }
   }, []);
 
   return (
