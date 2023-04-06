@@ -111,7 +111,7 @@ const ProfileMenu = ({ mouseClick }) => {
         aria-describedby="modal-modal-description"
       >
         <Box>
-          <SuccessfulLogOut />
+          <SuccessfulLogOut handleClose={handleClose} />
         </Box>
       </Modal>
     </Box>

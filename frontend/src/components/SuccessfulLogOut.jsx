@@ -20,7 +20,7 @@ const style = {
   },
 };
 
-const SuccessfulLogOut = () => {
+const SuccessfulLogOut = ({ handleClose }) => {
   return (
     <Box sx={style.modal}>
       <Typography
@@ -31,7 +31,12 @@ const SuccessfulLogOut = () => {
       >
         You have successfully logged out!
       </Typography>
-      <Button id="modal-modal-description" variant="contained" sx={{ mt: 2 }}>
+      <Button
+        id="modal-modal-description"
+        variant="contained"
+        sx={{ mt: 2 }}
+        onClick={handleClose}
+      >
         Okay
       </Button>
     </Box>
