@@ -94,16 +94,7 @@ const Cart = () => {
           return response.json();
         })
         .then((response) => {
-          if (response.url) {
-            window.location.assign(response.url);
-          }
-          if (response.url === "http://localhost:5173/success") {
-            if (user) {
-              localStorage.removeItem(user.uid);
-            } else {
-              localStorage.removeItem("guest");
-            }
-          }
+          window.location.assign(response.url);
         });
     }
   };
