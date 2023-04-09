@@ -41,8 +41,8 @@ app.post("/checkout", async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items: lineItems,
     mode: "payment",
-    success_url: "https://ecommerce-website-be.onrender.com/success",
-    cancel_url: "https://ecommerce-website-be.onrender.com/cancel",
+    success_url: "https://ecommerce-rr.netlify.app/success",
+    cancel_url: "https://ecommerce-rr.netlify.app/cancel",
   });
 
   res.send(
