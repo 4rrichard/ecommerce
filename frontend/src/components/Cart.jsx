@@ -41,6 +41,8 @@ const style = {
 };
 
 const Cart = () => {
+  const url = __URL__;
+
   const [user] = useAuthState(auth);
 
   const { selectedProduct, setSelectedProduct } = useContext(ProductContext);
@@ -83,7 +85,7 @@ const Cart = () => {
           });
         });
 
-      await fetch("http://localhost:4000/checkout", {
+      await fetch(`https://ecommerce-website-be.onrender.com/checkout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

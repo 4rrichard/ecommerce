@@ -11,12 +11,19 @@ Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops : price_1MsmyMKtMN1C4Z0pR8
 */
 const express = require("express");
 const cors = require("cors");
+
 const stripe = require("stripe")(
   "sk_test_51Mnf1qKtMN1C4Z0pXSt6LQnWsw6yB6v3Xerjp0hj7qtlE0wAZRiHEgRkFGiN7AyGoBeyJHAYYHaQywIOXexvtEZP004zKfIwLG"
 );
 
 const app = express();
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:5173", "https://ecommerce-rr.netlify.app"],
+  })
+);
 app.use(express.static("public"));
 app.use(express.json());
 
